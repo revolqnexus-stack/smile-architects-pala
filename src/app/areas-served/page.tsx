@@ -303,8 +303,7 @@ export default function AreasServedPage() {
                     >
                       <div className="card-light" style={{ 
                         padding: "1rem 1.25rem",
-                        transition: "all 0.2s ease",
-                        "&:hover": { backgroundColor: "var(--color-tea-green)" }
+                        transition: "all 0.2s ease"
                       }}>
                         <p style={{ 
                           fontFamily: "var(--font-serif)", 

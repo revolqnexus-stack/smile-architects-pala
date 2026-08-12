@@ -584,7 +584,7 @@ export default function HomePage() {
           </div>
 
           <RevealFade delay={0.2}>
-            <PremiumFAQ faqs={FAQS_GENERAL} />
+            <PremiumFAQ faqs={FAQS_GENERAL as typeof FAQS_GENERAL} />
           </RevealFade>
         </div>
       </section>
