@@ -520,6 +520,7 @@ export default async function TreatmentPage({ params }: Props) {
                 >
                   <AppointmentForm
                     compact
+                    surface="light"
                     heading={`Book for ${treatment.title}`}
                   />
                 </div>
