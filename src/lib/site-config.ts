@@ -372,7 +372,7 @@ export const FAQS_GENERAL = [
     answer:
       "Walk-ins are welcome, though appointments are recommended to avoid waiting times. Call ahead to check availability.",
   },
-] as const;
+];
 
 export type DoctorId = typeof DOCTORS[number]["id"];
 export type TreatmentId = typeof TREATMENTS[number]["id"];
