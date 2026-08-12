@@ -177,7 +177,7 @@ export default function ContactForm({ variant = "light" }: ContactFormProps) {
 
       <form ref={formRef} onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
         {/* Row 1: Name + Email */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }} className="contact-form-row">
           <div>
             <label
               htmlFor="contact-name"
@@ -263,7 +263,7 @@ export default function ContactForm({ variant = "light" }: ContactFormProps) {
         </div>
 
         {/* Row 2: Phone + Reason */}
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.25rem" }} className="contact-form-row">
           <div>
             <label
               htmlFor="contact-phone"
@@ -494,8 +494,14 @@ export default function ContactForm({ variant = "light" }: ContactFormProps) {
 
       {/* Mobile responsive adjustments */}
       <style>{`
+        .contact-form-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 1.25rem;
+        }
+        
         @media (max-width: 640px) {
-          #contact-form-grid {
+          .contact-form-row {
             grid-template-columns: 1fr !important;
           }
         }
