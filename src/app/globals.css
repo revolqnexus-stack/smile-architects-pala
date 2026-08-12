@@ -1,0 +1,2171 @@
+@import "tailwindcss";
+
+/* ─── Design System — Smile Architects ─────────────────────────────────────
+   VISUAL IDENTITY: Botanical | Warm | Sophisticated | Editorial
+   
+   Color Philosophy:
+   - 60% Light backgrounds (Honeydew, Vanilla, white-like negative space)
+   - 20% Dark Moss Green / Olive (primary brand authority)
+   - 10% Natural photography / imagery
+   - 5–10% Jonquil / Harvest Gold (strategic accent)
+   - Small amounts: Café Noir / Rich Mahogany (warm editorial accents)
+   
+   GREEN is the primary brand authority color.
+   YELLOW is an accent for energy and recognition.
+   
+   Typography: Instrument Serif (editorial headings) + Inter Tight (UI/body)
+──────────────────────────────────────────────────────────────────────────── */
+
+@theme inline {
+  /* ─── PRIMARY PALETTE ─────────────────────────────────────────────────── */
+  /* Dark Moss Green - Primary navigation, typography, major UI anchors */
+  --color-dark-moss: #254E06;
+  
+  /* Olive - Secondary accents, borders, tags, supporting UI */
+  --color-olive: #7E8407;
+  
+  /* Jonquil - Primary visual accent, CTA highlights, active states */
+  --color-jonquil: #EAC800;
+  
+  /* Harvest Gold - Secondary CTA, hover states (use sparingly) */
+  --color-harvest-gold: #DD9C00;
+  
+  /* ─── LIGHT PALETTE ───────────────────────────────────────────────────── */
+  /* Vanilla - Warm page backgrounds, editorial sections */
+  --color-vanilla: #F5EAB9;
+  
+  /* Honeydew - Primary light UI background, treatment cards */
+  --color-honeydew: #ECF5E2;
+  
+  /* Tea Green - Soft cards, hover backgrounds */
+  --color-tea-green: #D7E3A4;
+  
+  /* Moss Green - Muted UI, secondary text, borders */
+  --color-moss: #A7A865;
+  
+  /* ─── WARM NEUTRALS (use sparingly) ───────────────────────────────────── */
+  /* Café Noir - Warm typography accents, editorial elements */
+  --color-cafe-noir: #563D23;
+  
+  /* Rich Mahogany - Deepest warm accent, high-contrast typography */
+  --color-rich-mahogany: #291100;
+  
+  /* ─── FUNCTIONAL COLORS ────────────────────────────────────────────────── */
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-error: #ff3c3c;
+  --color-success: #7E8407; /* Using Olive for success states */
+  --color-warning: #DD9C00; /* Using Harvest Gold for warnings */
+  
+  /* ─── SEMANTIC ALIASES ─────────────────────────────────────────────────── */
+  /* Primary brand color - Dark Moss Green */
+  --color-primary: var(--color-dark-moss);
+  --color-primary-hover: #1a3905;
+  
+  /* Accent color - Jonquil */
+  --color-accent: var(--color-jonquil);
+  --color-accent-hover: var(--color-harvest-gold);
+  
+  /* Backgrounds */
+  --color-background-light: var(--color-honeydew);
+  --color-background-warm: var(--color-vanilla);
+  --color-background-white: var(--color-white);
+  --color-background-dark: var(--color-dark-moss);
+  
+  /* Text colors */
+  --color-text-primary: var(--color-dark-moss);
+  --color-text-secondary: var(--color-olive);
+  --color-text-muted: var(--color-moss);
+  --color-text-light: var(--color-honeydew);
+  --color-text-warm: var(--color-cafe-noir);
+  
+  /* UI elements */
+  --color-border: var(--color-olive);
+  --color-border-light: var(--color-tea-green);
+  --color-border-subtle: rgba(126, 132, 7, 0.2);
+  
+  /* Surface colors */
+  --color-surface-light: var(--color-honeydew);
+  --color-surface-warm: var(--color-vanilla);
+  --color-surface-card: var(--color-tea-green);
+
+  
+  /* ─── TYPOGRAPHY ────────────────────────────────────────────────────────── */
+  /*
+   * 5-font system (REVOLQ-inspired, adapted for dental editorial voice):
+   *
+   * --font-serif       → Playfair Display   — h1/h2/h3, hero headlines, display numbers
+   * --font-sans        → Inter              — body copy, UI labels, forms, nav
+   * --font-mono        → Space Grotesk      — credentials, tags, technical metadata
+   * --font-condensed   → Barlow Condensed   — hero compressed display text
+   * --font-utility     → IBM Plex Mono      — UPPERCASE eyebrows, section labels, CTAs
+   *
+   * next/font injects each as a CSS custom property on <html> via the className
+   * set in layout.tsx. The values below are fallbacks only for SSR/no-JS.
+   */
+  --font-serif-fallback: "Playfair Display", Georgia, serif;
+  --font-sans-fallback: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono-fallback: "Space Grotesk", "DM Sans", sans-serif;
+  --font-condensed-fallback: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --font-utility-fallback: "IBM Plex Mono", "Courier New", monospace;
+
+  /* Font weights */
+  --font-weight-thin: 100;
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+  
+  /* ─── SPACING SCALE ─────────────────────────────────────────────────────── */
+  /* Generous spacing for botanical/editorial feel */
+  --spacing-xs: 0.25rem;    /* 4px */
+  --spacing-sm: 0.5rem;     /* 8px */
+  --spacing-md: 1rem;       /* 16px */
+  --spacing-lg: 1.5rem;     /* 24px */
+  --spacing-xl: 2rem;       /* 32px */
+  --spacing-2xl: 3rem;      /* 48px */
+  --spacing-3xl: 4rem;      /* 64px */
+  --spacing-4xl: 6rem;      /* 96px */
+  --spacing-5xl: 8rem;      /* 128px */
+  
+  /* Section spacing */
+  --section-padding-sm: 3rem;
+  --section-padding-md: 5rem;
+  --section-padding-lg: 7rem;
+  
+  /* ─── BORDER RADIUS SCALE ───────────────────────────────────────────────── */
+  /* Organic, soft rounded containers */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-2xl: 36px;
+  --radius-full: 9999px;
+  
+  /* ─── SHADOWS ───────────────────────────────────────────────────────────── */
+  /* Subtle, refined shadows - avoid excessive depth */
+  --shadow-sm: 0 1px 2px rgba(37, 78, 6, 0.05);
+  --shadow-md: 0 4px 12px rgba(37, 78, 6, 0.08);
+  --shadow-lg: 0 8px 24px rgba(37, 78, 6, 0.12);
+  
+  /* ─── MOTION ────────────────────────────────────────────────────────────── */
+  --ease-default: ease-in-out;
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-natural: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-smooth: cubic-bezier(0.45, 0.05, 0.55, 0.95);
+  
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 450ms;
+  --duration-slower: 650ms;
+  
+  /* ─── LAYOUT ────────────────────────────────────────────────────────────── */
+  --container-max-width: 1280px;
+  --container-padding: clamp(1.25rem, 4vw, 3.5rem);
+  --content-max-width: 65ch;
+}
+
+/* ─── Base Reset ──────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Kill horizontal scroll */
+  -webkit-text-size-adjust: 100%; /* Prevent text scaling on iOS */
+}
+
+body {
+  background-color: var(--color-honeydew);
+  color: var(--color-dark-moss);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.65;
+  min-height: 100dvh;
+  overflow-x: hidden; /* Kill horizontal scroll */
+}
+
+/* Add bottom padding on mobile for floating action buttons */
+@media (max-width: 767px) {
+  main {
+    padding-bottom: max(2rem, env(safe-area-inset-bottom));
+  }
+}
+
+/* ─── Typography ──────────────────────────────────────────────────────────── */
+/*
+ * Font role assignments:
+ *   h1–h3:       Playfair Display — editorial, organic, weighted presence
+ *   h4–h6:       Playfair Display — refined subheadings
+ *   p / body:    Inter 200–400 — clean, readable, light weight like REVOLQ
+ *   credentials: Space Grotesk — technical, geometric, clinical feel
+ *   eyebrows:    IBM Plex Mono — utility monospaced uppercase labels
+ *   hero large:  Barlow Condensed — compressed impact (used inline where needed)
+ */
+
+/* Display: Playfair Display for headings */
+h1, h2, h3 {
+  font-family: var(--font-serif, var(--font-serif-fallback));
+  font-weight: 400;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--color-dark-moss);
+}
+
+h4, h5, h6 {
+  font-family: var(--font-serif, var(--font-serif-fallback));
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-dark-moss);
+}
+
+/* Responsive type scale */
+h1 { font-size: clamp(2.5rem, 6vw + 1rem, 5rem); margin-bottom: 1.5rem; }
+h2 { font-size: clamp(2rem, 4vw + 0.75rem, 3.5rem); margin-bottom: 1.25rem; }
+h3 { font-size: clamp(1.5rem, 3vw + 0.5rem, 2.25rem); margin-bottom: 1rem; }
+h4 { font-size: clamp(1.25rem, 2vw + 0.25rem, 1.75rem); margin-bottom: 0.875rem; }
+h5 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+h6 { font-size: 1.125rem; margin-bottom: 0.625rem; }
+
+/* Body text — Inter at light weight (REVOLQ default: 200) */
+body {
+  font-family: var(--font-sans, var(--font-sans-fallback));
+  font-weight: var(--font-weight-light); /* 300 for dental content readability */
+}
+
+p {
+  font-family: var(--font-sans, var(--font-sans-fallback));
+  font-weight: var(--font-weight-light); /* 300 for readability on dental copy */
+  color: var(--color-dark-moss);
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+/* Light sections — adjust text */
+.section-light p {
+  color: var(--color-dark-moss);
+  opacity: 0.9;
+}
+
+/* Dark sections — light text */
+.section-dark p,
+.section-dark h1,
+.section-dark h2,
+.section-dark h3,
+.section-dark h4,
+.section-dark h5,
+.section-dark h6 {
+  color: var(--color-honeydew);
+}
+
+.section-dark p {
+  opacity: 0.9;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color var(--duration-base) var(--ease-default);
+}
+
+a:hover {
+  color: var(--color-olive);
+}
+
+.section-dark a:hover {
+  color: var(--color-jonquil);
+}
+
+/* Strong text */
+strong, b {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-dark-moss);
+}
+
+.section-dark strong,
+.section-dark b {
+  color: var(--color-honeydew);
+}
+
+/* Small/metadata text — Space Grotesk for technical feel */
+small, .text-small {
+  font-family: var(--font-mono, var(--font-mono-fallback));
+  font-size: 0.875rem;
+  color: var(--color-moss);
+  font-weight: var(--font-weight-normal);
+}
+
+/*
+ * Doctor credentials — Space Grotesk (geometric sans, "technical" feel)
+ * Matches REVOLQ's --font-mono usage for spec/metadata copy
+ */
+.credentials {
+  font-family: var(--font-mono, var(--font-mono-fallback));
+  font-size: 0.9375rem;
+  color: var(--color-olive);
+  letter-spacing: 0.01em;
+  font-weight: var(--font-weight-normal);
+}
+
+/*
+ * Eyebrow labels — IBM Plex Mono UPPERCASE
+ * Matches REVOLQ's --font-utility for REVOLQ / SYSTEMS STUDIO style labels
+ */
+.eyebrow {
+  font-family: var(--font-utility, var(--font-utility-fallback));
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-olive);
+}
+
+/*
+ * Hero condensed — Barlow Condensed
+ * Use .hero-display class for the big compressed headline treatment
+ */
+.hero-display {
+  font-family: var(--font-condensed, var(--font-condensed-fallback));
+  font-weight: var(--font-weight-extrabold);
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* ─── Utility Classes ─────────────────────────────────────────────────────── */
+/* Color utilities */
+.text-dark-moss { color: var(--color-dark-moss); }
+.text-olive { color: var(--color-olive); }
+.text-jonquil { color: var(--color-jonquil); }
+.text-moss { color: var(--color-moss); }
+.text-cafe-noir { color: var(--color-cafe-noir); }
+.text-light { color: var(--color-honeydew); }
+
+.bg-honeydew { background-color: var(--color-honeydew); }
+.bg-vanilla { background-color: var(--color-vanilla); }
+.bg-tea-green { background-color: var(--color-tea-green); }
+.bg-dark-moss { background-color: var(--color-dark-moss); }
+.bg-olive { background-color: var(--color-olive); }
+.bg-white { background-color: var(--color-white); }
+
+/* Section backgrounds with proper rhythm: LIGHT → DARK → LIGHT → IMAGE → GREEN → LIGHT → GOLD ACCENT */
+.section-light {
+  background-color: var(--color-honeydew);
+}
+
+.section-warm {
+  background-color: var(--color-vanilla);
+}
+
+.section-card {
+  background-color: var(--color-tea-green);
+}
+
+.section-dark {
+  background-color: var(--color-dark-moss);
+  color: var(--color-honeydew);
+}
+
+.section-olive {
+  background-color: var(--color-olive);
+  color: var(--color-honeydew);
+}
+
+.section-white {
+  background-color: var(--color-white);
+}
+
+/* Section vertical rhythm - generous spacing */
+.section-padding {
+  padding-top: clamp(3rem, 8vw, 7rem);
+  padding-bottom: clamp(3rem, 8vw, 7rem);
+}
+
+.section-padding-sm {
+  padding-top: clamp(2rem, 5vw, 4rem);
+  padding-bottom: clamp(2rem, 5vw, 4rem);
+}
+
+.section-padding-lg {
+  padding-top: clamp(5rem, 12vw, 10rem);
+  padding-bottom: clamp(5rem, 12vw, 10rem);
+}
+
+/* Container */
+.container-xl {
+  width: 100%;
+  max-width: var(--container-max-width);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* Content max-width for readable text */
+.content-max {
+  max-width: var(--content-max-width);
+}
+
+/* Botanical gradient text - Jonquil to Harvest Gold */
+.text-gradient-botanical {
+  background: linear-gradient(135deg, var(--color-jonquil), var(--color-harvest-gold));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Green gradient text - Olive to Dark Moss */
+.text-gradient-green {
+  background: linear-gradient(135deg, var(--color-olive), var(--color-dark-moss));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Button System ───────────────────────────────────────────────────────── */
+/* IBM Plex Mono for button text — REVOLQ's utility font for CTAs */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  font-family: var(--font-utility, var(--font-utility-fallback));
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+  padding: 0.875rem 2rem;
+  transition:
+    background-color var(--duration-base) var(--ease-natural),
+    color var(--duration-base) var(--ease-natural),
+    border-color var(--duration-base) var(--ease-natural),
+    transform var(--duration-fast) var(--ease-natural),
+    box-shadow var(--duration-base) var(--ease-natural);
+  cursor: pointer;
+  border: 2px solid transparent;
+  outline: none;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.btn:focus-visible {
+  outline: 3px solid var(--color-jonquil);
+  outline-offset: 2px;
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+/* Primary CTA - Dark Moss Green background, light text */
+.btn-primary {
+  background-color: var(--color-dark-moss);
+  color: var(--color-honeydew);
+  border-color: var(--color-dark-moss);
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-hover);
+  border-color: var(--color-primary-hover);
+}
+
+/* Secondary CTA - Jonquil background, Dark Moss text */
+.btn-secondary {
+  background-color: var(--color-jonquil);
+  color: var(--color-dark-moss);
+  border-color: var(--color-jonquil);
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-harvest-gold);
+  border-color: var(--color-harvest-gold);
+}
+
+/* Ghost CTA - Dark Moss border and text (for light backgrounds) */
+.btn-ghost {
+  background-color: transparent;
+  color: var(--color-dark-moss);
+  border-color: var(--color-dark-moss);
+}
+
+.btn-ghost:hover {
+  background-color: var(--color-dark-moss);
+  color: var(--color-honeydew);
+  border-color: var(--color-dark-moss);
+}
+
+/* Ghost light - For dark backgrounds */
+.btn-ghost-light {
+  background-color: transparent;
+  color: var(--color-honeydew);
+  border-color: var(--color-honeydew);
+}
+
+.btn-ghost-light:hover {
+  background-color: var(--color-honeydew);
+  color: var(--color-dark-moss);
+  border-color: var(--color-honeydew);
+}
+
+/* Accent CTA - Olive background */
+.btn-accent {
+  background-color: var(--color-olive);
+  color: var(--color-honeydew);
+  border-color: var(--color-olive);
+}
+
+.btn-accent:hover {
+  background-color: #6a6f06;
+  border-color: #6a6f06;
+}
+
+/* Small button variant */
+.btn-sm {
+  font-size: 0.875rem;
+  padding: 0.625rem 1.5rem;
+}
+
+/* Large button variant */
+.btn-lg {
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+}
+
+/* ─── Card System ──────────────────────────────────────────────────────────── */
+/* Soft, organic containers - avoid excessive shadows */
+.card {
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  border: 1px solid var(--color-border-light);
+  transition: 
+    border-color var(--duration-base) var(--ease-natural),
+    box-shadow var(--duration-base) var(--ease-natural),
+    transform var(--duration-base) var(--ease-natural);
+}
+
+.card:hover {
+  border-color: var(--color-olive);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+/* Premium guide cards - modern depth and interactions */
+.guide-card {
+  background-color: var(--color-white);
+  border-radius: 16px;
+  padding: 1.75rem;
+  border: none;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.guide-card:hover {
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+.guide-card h3 {
+  font-family: var(--font-serif, var(--font-serif-fallback));
+  font-size: 1.25rem;
+  color: var(--color-dark-moss);
+  font-weight: 500;
+  line-height: 1.25;
+  margin-bottom: 0;
+}
+
+.guide-card p {
+  font-size: 0.9375rem;
+  color: var(--color-olive);
+  line-height: 1.65;
+  flex: 1;
+  opacity: 0.95;
+  margin-bottom: 0;
+}
+
+.guide-card .read-link {
+  font-size: 0.875rem;
+  color: var(--color-olive);
+  font-weight: 500;
+  font-family: var(--font-sans, var(--font-sans-fallback));
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  transition: all 0.3s ease;
+}
+
+.guide-card:hover .read-link {
+  color: var(--color-dark-moss);
+}
+
+.guide-card:hover .read-link .arrow {
+  transform: translateX(4px);
+}
+
+.guide-card .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+/* Light card - Honeydew background */
+.card-light {
+  background-color: var(--color-honeydew);
+  border-color: var(--color-tea-green);
+}
+
+.card-light:hover {
+  border-color: var(--color-olive);
+}
+
+/* Warm card - Vanilla background */
+.card-warm {
+  background-color: var(--color-vanilla);
+  border-color: rgba(126, 132, 7, 0.15);
+}
+
+.card-warm:hover {
+  border-color: var(--color-olive);
+}
+
+/* Tea green card - soft backgrounds */
+.card-tea {
+  background-color: var(--color-tea-green);
+  border-color: var(--color-moss);
+}
+
+.card-tea:hover {
+  border-color: var(--color-olive);
+}
+
+/* Dark card - for dark sections */
+.card-dark {
+  background-color: rgba(37, 78, 6, 0.3);
+  border-color: rgba(236, 245, 226, 0.1);
+  color: var(--color-honeydew);
+}
+
+.card-dark:hover {
+  border-color: rgba(236, 245, 226, 0.25);
+}
+
+/* Treatment card - featured styling */
+.card-treatment {
+  background-color: var(--color-white);
+  border-radius: var(--radius-xl);
+  padding: 2.5rem;
+  border: 2px solid var(--color-tea-green);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-treatment:hover {
+  border-color: var(--color-jonquil);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ─── Hover Scale Effects ──────────────────────────────────────────────────── */
+.hover-scale-card {
+  transition: transform var(--duration-base) var(--ease-natural);
+}
+
+.hover-scale-card:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale-button {
+  transition: transform var(--duration-base) var(--ease-natural);
+}
+
+.hover-scale-button:hover {
+  transform: scale(1.05);
+}
+
+/* ─── Dividers & Borders ───────────────────────────────────────────────────── */
+/* Fine editorial rules */
+.divider {
+  border-top: 1px solid var(--color-border-light);
+}
+
+.divider-olive {
+  border-top: 1px solid var(--color-olive);
+}
+
+.divider-subtle {
+  border-top: 1px solid var(--color-border-subtle);
+}
+
+/* Dark section dividers */
+.section-dark .divider {
+  border-top-color: rgba(236, 245, 226, 0.15);
+}
+
+/* ─── Decorative Elements ──────────────────────────────────────────────────── */
+/* Botanical character - subtle leaf-inspired shapes, organic curves */
+
+/* Organic curve decorations */
+.curve-top {
+  position: relative;
+}
+
+.curve-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: inherit;
+  border-radius: 0 0 50% 50%;
+  transform: translateY(-50%);
+}
+
+/* Botanical accent line */
+.accent-line {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-jonquil), var(--color-harvest-gold));
+  border-radius: var(--radius-full);
+  margin-bottom: 1.5rem;
+}
+
+/* Botanical icon container */
+.icon-botanical {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-md);
+  background-color: var(--color-tea-green);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-dark-moss);
+  transition: all var(--duration-base) var(--ease-natural);
+}
+
+.icon-botanical:hover {
+  background-color: var(--color-jonquil);
+  transform: scale(1.05);
+}
+
+/* Soft light gradient overlay */
+.gradient-light-overlay {
+  background: linear-gradient(180deg, 
+    rgba(236, 245, 226, 0) 0%, 
+    rgba(236, 245, 226, 0.5) 100%
+  );
+}
+
+/* Natural texture - restrained grain */
+.texture-grain {
+  position: relative;
+}
+
+.texture-grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+/* ─── Focus States ─────────────────────────────────────────────────────────── */
+/* Jonquil focus for accessibility */
+:focus-visible {
+  outline: 3px solid var(--color-jonquil);
+  outline-offset: 3px;
+  border-radius: var(--radius-sm);
+}
+
+/* ─── Skip Link ────────────────────────────────────────────────────────────── */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--color-jonquil);
+  color: var(--color-dark-moss);
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-semibold);
+  font-size: 0.9375rem;
+  transition: top var(--duration-fast);
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* ─── Breadcrumb ───────────────────────────────────────────────────────────── */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: var(--color-moss);
+  flex-wrap: wrap;
+  font-family: var(--font-utility, var(--font-utility-fallback));
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.breadcrumb a {
+  color: var(--color-olive);
+  transition: color var(--duration-base) var(--ease-natural);
+}
+
+.breadcrumb a:hover {
+  color: var(--color-dark-moss);
+}
+
+.breadcrumb-sep {
+  opacity: 0.4;
+  color: var(--color-moss);
+}
+
+.breadcrumb-current {
+  color: var(--color-dark-moss);
+  font-weight: var(--font-weight-medium);
+}
+
+.section-dark .breadcrumb {
+  color: rgba(236, 245, 226, 0.7);
+}
+
+.section-dark .breadcrumb a {
+  color: var(--color-honeydew);
+}
+
+.section-dark .breadcrumb a:hover {
+  color: var(--color-jonquil);
+}
+
+.section-dark .breadcrumb-current {
+  color: var(--color-honeydew);
+}
+
+/* ─── Ticker/Marquee ───────────────────────────────────────────────────────── */
+@keyframes ticker {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker 28s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+/* ─── REVOLQ ANIMATION SYSTEM ──────────────────────────────────────────────── */
+
+/**
+ * Hero animation — CSS keyframes on page load (REVOLQ system)
+ * Much more dramatic than scroll reveals: starts from 105% translateY
+ */
+@keyframes revealUp {
+  from {
+    transform: translateY(105%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-reveal {
+  animation: revealUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/**
+ * Reduced motion: disable dramatic hero animations
+ */
+@media (prefers-reduced-motion: reduce) {
+  .animate-reveal {
+    animation: none;
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Page Transitions ─────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-fade-up {
+    animation: fadeUp 0.6s var(--ease-out-quint) both;
+  }
+  
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s var(--ease-natural) both;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .animate-scale-in {
+    animation: scaleIn 0.4s var(--ease-out-quint) both;
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-up,
+  .animate-fade-in,
+  .animate-scale-in {
+    animation: none;
+  }
+}
+
+/* ─── LEGACY FAQ (replaced with PremiumFAQ component) ─────────────────────── */
+/* Note: Old static FAQ styles kept for reference but not in use */
+details {
+  border-bottom: 1px solid var(--color-border-light);
+  padding: 1.5rem 0;
+}
+
+details summary {
+  cursor: pointer;
+  list-style: none;
+  font-family: var(--font-serif, var(--font-serif-fallback));
+  font-size: 1.125rem;
+  color: var(--color-dark-moss);
+  font-weight: var(--font-weight-medium);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: color var(--duration-base) var(--ease-natural);
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details summary:hover {
+  color: var(--color-olive);
+}
+
+details[open] summary {
+  color: var(--color-olive);
+  margin-bottom: 1rem;
+}
+
+details p {
+  color: var(--color-dark-moss);
+  opacity: 0.9;
+  padding-left: 0.5rem;
+}
+
+.section-dark details {
+  border-bottom-color: rgba(236, 245, 226, 0.15);
+}
+
+.section-dark details summary,
+.section-dark details p {
+  color: var(--color-honeydew);
+}
+
+/* ─── Form Elements ────────────────────────────────────────────────────────── */
+
+/* Labels — IBM Plex Mono for form field labels (utility/technical feel) */
+label {
+  display: block;
+  font-family: var(--font-utility, var(--font-utility-fallback));
+  font-size: 0.6875rem;
+  font-weight: var(--font-weight-medium);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-dark-moss);
+  margin-bottom: 0.5rem;
+}
+
+/* Inputs — Inter for clean readable form input text */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+input[type="time"],
+textarea,
+select {
+  width: 100%;
+  padding: 0.875rem 1.25rem;
+  border: 2px solid var(--color-border-light);
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans, var(--font-sans-fallback));
+  font-size: 1rem;
+  font-weight: var(--font-weight-normal);
+  color: var(--color-dark-moss);
+  background-color: var(--color-white);
+  transition: all var(--duration-base) var(--ease-natural);
+}
+
+/* Dark mode form inputs (on dark backgrounds) */
+input[type="text"].dark-mode,
+input[type="email"].dark-mode,
+input[type="tel"].dark-mode,
+input[type="date"].dark-mode,
+input[type="time"].dark-mode,
+textarea.dark-mode,
+select.dark-mode {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+}
+
+input[type="text"].dark-mode::placeholder,
+input[type="email"].dark-mode::placeholder,
+input[type="tel"].dark-mode::placeholder,
+textarea.dark-mode::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+input[type="text"]:hover,
+input[type="email"]:hover,
+input[type="tel"]:hover,
+input[type="date"]:hover,
+input[type="time"]:hover,
+textarea:hover,
+select:hover {
+  border-color: var(--color-olive);
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+input[type="time"]:focus,
+textarea:focus,
+select:focus {
+  outline: none;
+  border-color: var(--color-jonquil);
+  box-shadow: 0 0 0 3px rgba(234, 200, 0, 0.1);
+}
+
+input[type="text"].dark-mode:focus,
+input[type="email"].dark-mode:focus,
+input[type="tel"].dark-mode:focus,
+input[type="date"].dark-mode:focus,
+input[type="time"].dark-mode:focus,
+textarea.dark-mode:focus,
+select.dark-mode:focus {
+  border-color: #EAC800;
+  box-shadow: 0 0 0 3px rgba(234, 200, 0, 0.2);
+}
+
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+input[type="radio"],
+input[type="checkbox"] {
+  accent-color: var(--color-jonquil);
+}
+
+/* ─── Contact Card (Book Appointment) ──────────────────────────────────────── */
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.5rem;
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  border: 2px solid var(--color-tea-green);
+  transition: all var(--duration-base) var(--ease-natural);
+  text-decoration: none;
+}
+
+.contact-card:hover {
+  border-color: var(--color-jonquil);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.contact-card-dark {
+  background-color: rgba(37, 78, 6, 0.2);
+  border-color: rgba(236, 245, 226, 0.15);
+  color: var(--color-honeydew);
+}
+
+.contact-card-dark:hover {
+  border-color: var(--color-jonquil);
+}
+
+/* ─── Tags & Badges ────────────────────────────────────────────────────────── */
+/* Space Grotesk — technical/metadata feel for treatment tags, credentials */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8125rem;
+  font-weight: var(--font-weight-medium);
+  font-family: var(--font-mono, var(--font-mono-fallback));
+  background-color: var(--color-tea-green);
+  color: var(--color-dark-moss);
+  border: 1px solid var(--color-olive);
+  letter-spacing: 0.01em;
+}
+
+.tag-accent {
+  background-color: var(--color-jonquil);
+  color: var(--color-dark-moss);
+  border-color: var(--color-harvest-gold);
+}
+
+.tag-olive {
+  color: var(--color-olive);
+  background-color: rgba(126, 132, 7, 0.1);
+  border: none;
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+}
+
+/* ─── Treatments Page Layout ───────────────────────────────────────────────── */
+.treatments-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .treatments-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+.treatment-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform var(--duration-base) var(--ease-natural);
+}
+
+.treatment-card-link:hover {
+  transform: translateY(-4px);
+}
+
+.treatment-card-title {
+  font-family: var(--font-serif, var(--font-serif-fallback));
+  font-size: 1.25rem;
+  color: var(--color-dark-moss);
+  font-weight: 500;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+
+.treatment-card-body {
+  color: var(--color-dark-moss);
+  opacity: 0.85;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+}
+
+.card-learn-more {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: var(--color-olive);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color var(--duration-base) var(--ease-natural);
+  font-family: var(--font-utility, var(--font-utility-fallback));
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.treatment-card-link:hover .card-learn-more {
+  color: var(--color-jonquil);
+}
+
+/* ─── Footer Links ─────────────────────────────────────────────────────────── */
+.footer-link {
+  display: inline-block;
+  font-size: 0.875rem;
+  color: var(--color-honeydew);
+  opacity: 0.8;
+  transition: all var(--duration-base) var(--ease-natural);
+  text-decoration: none;
+  padding: 0.25rem 0;
+  min-height: 44px; /* Touch target */
+  display: flex;
+  align-items: center;
+}
+
+.footer-link:hover {
+  opacity: 1;
+  color: var(--color-jonquil);
+  transform: translateX(4px);
+}
+
+.footer-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: #25D366;
+  color: #ffffff;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all var(--duration-base) var(--ease-natural);
+  min-height: 44px; /* Touch target */
+}
+
+.footer-whatsapp:hover {
+  background-color: #20BA5A;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+}
+
+.footer-legal-link {
+  font-size: 0.75rem;
+  color: var(--color-honeydew);
+  opacity: 0.7;
+  text-decoration: none;
+  transition: all var(--duration-base) var(--ease-natural);
+  padding: 0.5rem;
+  min-height: 44px; /* Touch target */
+  display: inline-flex;
+  align-items: center;
+}
+
+.footer-legal-link:hover {
+  opacity: 1;
+  color: var(--color-jonquil);
+}
+
+/* ─── Mobile Specific ──────────────────────────────────────────────────────── */
+/* Mobile-first approach with proper touch targets and breakpoints */
+
+/* Touch targets - minimum 44px for accessibility */
+button,
+a,
+input[type="button"],
+input[type="submit"],
+.btn,
+.contact-card {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+/* Remove hover effects on touch devices */
+@media (hover: none) {
+  /* Touch devices - remove cursor, add active states */
+  * { 
+    cursor: auto !important; 
+  }
+    
+  .btn:active,
+  .card:active,
+  .contact-card:active {
+    transform: scale(0.98);
+  }
+  
+  /* Disable hover animations on touch */
+  .hover-scale-card:hover,
+  .hover-scale-button:hover {
+    transform: none;
+  }
+}
+
+/* Apply hover effects only on devices that can actually hover */
+@media (hover: hover) {
+  .btn:hover,
+  .card:hover,
+  .contact-card:hover {
+    /* Hover styles already defined above */
+  }
+}
+
+/* Mobile breakpoints */
+@media (max-width: 480px) {
+  /* Large phones */
+  .container-xl {
+    padding-inline: 1rem;
+  }
+  
+  .section-padding {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+  
+  .btn {
+    padding: 0.875rem 1.75rem;
+    font-size: 0.875rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Tablets and below */
+  body {
+    background-color: var(--color-honeydew);
+  }
+  
+  /* Keep CTA highly visible */
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .btn-sm {
+    width: auto;
+  }
+  
+  /* Maintain large readable typography */
+  h1 { font-size: 2.5rem; }
+  h2 { font-size: 2rem; }
+  h3 { font-size: 1.5rem; }
+  
+  /* Preserve generous spacing */
+  .section-padding {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+  
+  .container-xl {
+    padding-inline: 1.25rem;
+  }
+  
+  /* Touch-friendly buttons */
+  .btn {
+    padding: 1rem 2rem;
+    font-size: 1rem;
+  }
+  
+  /* Cards on mobile */
+  .card,
+  .card-light,
+  .card-warm,
+  .card-tea,
+  .card-treatment {
+    padding: 1.5rem;
+  }
+  
+  /* Mobile navigation adjustments */
+  .mobile-appointment-bar {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  /* Footer mobile layout */
+  footer {
+    min-height: 400px !important; /* Shorter footer on mobile for Aurora */
+  }
+  
+  footer .container-xl > div:first-of-type {
+    grid-template-columns: 1fr !important; /* Single column footer on mobile */
+    gap: 2rem !important;
+  }
+  
+  /* Book appointment page mobile */
+  .book-appointment-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.5rem !important;
+  }
+}
+
+/* Large tablets and small laptops */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .container-xl {
+    padding-inline: 2rem;
+  }
+}
+
+/* Desktop and up */
+@media (min-width: 1025px) {
+  .container-xl {
+    padding-inline: 3rem;
+  }
+  
+  .mobile-appointment-bar {
+    display: none;
+  }
+}
+
+/* Sticky mobile appointment bar */
+.mobile-appointment-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--color-dark-moss);
+  padding: 1rem;
+  box-shadow: 0 -4px 12px rgba(37, 78, 6, 0.15);
+  display: none;
+}
+
+/* Sticky mobile appointment bar */
+.mobile-appointment-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: var(--color-dark-moss);
+  padding: 1rem;
+  box-shadow: 0 -4px 12px rgba(37, 78, 6, 0.15);
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-appointment-bar {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+/* ─── Print Styles ─────────────────────────────────────────────────────────── */
+@media print {
+  nav, 
+  footer, 
+  .no-print,
+  .mobile-appointment-bar,
+  .btn {
+    display: none !important;
+  }
+  
+  body {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-black);
+  }
+  
+  a {
+    text-decoration: underline;
+  }
+  
+  .section-dark,
+  .section-olive {
+    background: var(--color-white);
+    color: var(--color-black);
+  }
+  
+  .card,
+  .card-light,
+  .card-warm,
+  .card-treatment {
+    border: 1px solid var(--color-black);
+    box-shadow: none;
+  }
+}
+
+/* ─── Accessibility Utilities ──────────────────────────────────────────────── */
+/* Screen reader only */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .btn,
+  .card,
+  input,
+  textarea,
+  select {
+    border-width: 3px;
+  }
+  
+  :focus-visible {
+    outline-width: 4px;
+  }
+}
+
+/* Reduced transparency for accessibility */
+@media (prefers-reduced-transparency: reduce) {
+  * {
+    opacity: 1 !important;
+  }
+}
+
+/* ─── Loading States ───────────────────────────────────────────────────────── */
+.loading {
+  opacity: 0.6;
+  pointer-events: none;
+  cursor: wait;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.loading-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ─── Error States ─────────────────────────────────────────────────────────── */
+.error-message {
+  color: var(--color-error);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+}
+
+.input-error {
+  border-color: var(--color-error) !important;
+}
+
+.input-error:focus {
+  box-shadow: 0 0 0 3px rgba(255, 60, 60, 0.1) !important;
+}
+
+/* ─── Success States ───────────────────────────────────────────────────────── */
+.success-message {
+  color: var(--color-success);
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  font-family: var(--font-sans);
+}
+
+/* ─── Footer Specific Styles ───────────────────────────────────────────────── */
+.footer-link {
+  font-size: 0.875rem;
+  color: var(--color-honeydew);
+  opacity: 0.8;
+  transition: 
+    color 200ms ease,
+    opacity 200ms ease;
+  text-decoration: none;
+}
+
+.footer-link:hover {
+  color: var(--color-jonquil);
+  opacity: 1;
+}
+
+.footer-legal-link {
+  font-size: 0.75rem;
+  color: var(--color-honeydew);
+  opacity: 0.7;
+  transition: 
+    color 200ms ease,
+    opacity 200ms ease;
+  text-decoration: none;
+}
+
+.footer-legal-link:hover {
+  color: var(--color-jonquil);
+  opacity: 1;
+}
+
+.footer-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-jonquil);
+  color: var(--color-dark-moss);
+  border: 2px solid var(--color-jonquil);
+  border-radius: var(--radius-full);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 200ms ease;
+}
+
+.footer-whatsapp:hover {
+  background-color: var(--color-harvest-gold);
+  border-color: var(--color-harvest-gold);
+  transform: translateY(-2px);
+}
+
+/* ─── END: Smile Architects Design System ──────────────────────────────────── */
+
+/* ─── HOMEPAGE SECTIONS ─────────────────────────────────────────────────────── */
+
+/* Section header block */
+.section-header {
+  margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  max-width: 680px;
+}
+
+/* Section titles */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 4.5vw, 3rem);
+  color: var(--color-dark-moss);
+  font-weight: 400;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.section-body {
+  color: var(--color-cafe-noir);
+  max-width: 560px;
+  line-height: 1.75;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  font-family: var(--font-sans);
+}
+
+/* ─── TREATMENTS GRID ──────────────────────────────────────────────────────── */
+
+.treatments-grid {
+  display: grid;
+  /* Mobile: 1 card per row */
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 480px) {
+  .treatments-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .treatments-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .treatments-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.treatment-card-link {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}
+
+.treatment-card-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, 2.5vw, 1.25rem);
+  color: var(--color-dark-moss);
+  font-weight: 400;
+  margin-bottom: 0.625rem;
+  line-height: 1.2;
+}
+
+.treatment-card-body {
+  font-size: 0.9375rem;
+  color: var(--color-cafe-noir);
+  line-height: 1.6;
+  margin-bottom: 1.25rem;
+  flex: 1;
+}
+
+.card-learn-more {
+  font-size: 0.875rem;
+  color: var(--color-olive);
+  font-weight: 600;
+  font-family: var(--font-sans);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.card-learn-more .arrow {
+  color: var(--color-jonquil);
+  transition: transform 0.2s ease;
+}
+
+.card-treatment:hover .arrow {
+  transform: translateX(4px);
+}
+
+/* ─── FEATURE SPLIT (orthodontics + location) ──────────────────────────────── */
+
+.feature-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .feature-split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.feature-split-text { order: 1; }
+.feature-split-image { order: 2; }
+
+.check-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.check-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: clamp(0.9375rem, 2vw, 1rem);
+  color: var(--color-dark-moss);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+.check-mark {
+  color: var(--color-jonquil);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.1em;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+/* On mobile, buttons stack and go full-width */
+@media (max-width: 479px) {
+  .btn-group {
+    flex-direction: column;
+  }
+  .btn-group .btn {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+}
+
+/* Feature image block */
+.feature-image-frame {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  border-radius: var(--radius-2xl);
+  border: 3px solid var(--color-olive);
+  background: linear-gradient(135deg, var(--color-honeydew) 0%, var(--color-tea-green) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+}
+
+/* On mobile, reduce aspect ratio so it doesn't take up too much space */
+@media (max-width: 899px) {
+  .feature-image-frame {
+    aspect-ratio: 16 / 9;
+    max-height: 280px;
+  }
+}
+
+.feature-image-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+  z-index: 1;
+  gap: 0.75rem;
+}
+
+.feature-image-badge {
+  font-size: 0.6875rem;
+  font-family: var(--font-utility);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-dark-moss);
+  background: var(--color-jonquil);
+  padding: 0.375rem 0.875rem;
+  border-radius: 9999px;
+}
+
+.feature-image-icon {
+  margin: 0.5rem 0;
+}
+
+.feature-image-label {
+  font-family: var(--font-serif);
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: var(--color-dark-moss);
+  margin: 0;
+}
+
+.feature-image-sub {
+  font-size: 0.875rem;
+  color: var(--color-olive);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.feature-image-glow {
+  position: absolute;
+  top: -30%;
+  right: -20%;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--color-jonquil) 0%, transparent 70%);
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+/* ─── DOCTORS GRID ─────────────────────────────────────────────────────────── */
+
+.doctors-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 560px) {
+  .doctors-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .doctors-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.doctor-card {
+  background: var(--color-honeydew);
+  border: 1.5px solid var(--color-tea-green);
+  border-radius: var(--radius-xl);
+  padding: clamp(1.25rem, 3vw, 1.75rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1.125rem;
+  height: 100%;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.doctor-card:hover {
+  border-color: var(--color-olive);
+  box-shadow: var(--shadow-md);
+}
+
+.doctor-card-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.doctor-card-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.125rem, 2.5vw, 1.375rem);
+  color: var(--color-dark-moss);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.doctor-card-specialty {
+  font-size: 0.9375rem;
+  color: var(--color-cafe-noir);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+}
+
+/* ─── FACILITIES GRID ──────────────────────────────────────────────────────── */
+
+.facilities-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 480px) {
+  .facilities-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 900px) {
+  .facilities-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .facilities-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.facility-card {
+  padding: clamp(1.25rem, 3vw, 2rem);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.facility-check {
+  width: 40px;
+  height: 40px;
+  background: var(--color-jonquil);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.facility-name {
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-dark-moss);
+}
+
+.facility-desc {
+  font-size: 0.9375rem;
+  color: var(--color-cafe-noir);
+  line-height: 1.6;
+}
+
+/* ─── FAQ ──────────────────────────────────────────────────────────────────── */
+
+.faq-container {
+  max-width: 820px;
+}
+
+.faq-item {
+  border-bottom: 2px solid var(--color-tea-green);
+  padding: clamp(1.125rem, 3vw, 1.5rem) 0;
+}
+
+.faq-summary {
+  font-size: clamp(0.9375rem, 2.5vw, 1.0625rem);
+  color: var(--color-dark-moss);
+  font-family: var(--font-serif);
+  font-weight: 400;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+  cursor: pointer;
+  list-style: none;
+}
+
+.faq-summary::-webkit-details-marker { display: none; }
+
+.faq-icon {
+  color: var(--color-jonquil);
+  font-size: 1.5rem;
+  font-weight: 300;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.faq-answer {
+  padding-top: 0.875rem;
+  padding-right: clamp(1rem, 4vw, 2.5rem);
+}
+
+.faq-answer p {
+  font-size: clamp(0.9375rem, 2vw, 1rem);
+  color: var(--color-cafe-noir);
+  line-height: 1.75;
+  font-family: var(--font-sans);
+}
+
+/* ─── LOCATION SPLIT ───────────────────────────────────────────────────────── */
+
+.location-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(2.5rem, 6vw, 5rem);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .location-split {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.location-text { order: 1; }
+.location-map { order: 2; }
+
+.address-primary {
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  color: var(--color-dark-moss);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  line-height: 1.8;
+}
+
+.address-landmark {
+  font-size: 0.9375rem;
+  color: var(--color-olive);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  margin-top: 0.375rem;
+}
+
+.hours-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.375rem;
+  background: var(--color-honeydew);
+  border-radius: var(--radius-lg);
+  border: 1.5px solid var(--color-tea-green);
+}
+
+.hours-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.hours-label {
+  color: var(--color-olive);
+  font-size: 0.875rem;
+  font-weight: 600;
+  font-family: var(--font-sans);
+  min-width: 80px;
+  flex-shrink: 0;
+}
+
+.hours-value {
+  color: var(--color-dark-moss);
+  font-size: 0.9375rem;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+.hours-phone {
+  color: var(--color-dark-moss);
+  font-size: 0.9375rem;
+  font-family: var(--font-sans);
+  font-weight: 600;
+}
+
+.map-frame {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  border: 2.5px solid var(--color-dark-moss);
+  aspect-ratio: 4 / 3;
+  background: var(--color-honeydew);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 899px) {
+  .map-frame {
+    aspect-ratio: 16 / 9;
+  }
+}
+
+/* ─── GLOBAL MOBILE LAYOUT FIXES ────────────────────────────────────────────── */
+
+/* Ensure minimum tap target size on all interactive elements */
+button, a, summary {
+  min-height: 44px;
+}
+
+/* Prevent overflow on mobile */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Better touch scrolling */
+body {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mobile section padding — generous but not wasteful */
+@media (max-width: 767px) {
+  .section-padding {
+    padding-top: clamp(4rem, 12vw, 5.5rem);
+    padding-bottom: clamp(4rem, 12vw, 5.5rem);
+  }
+  
+  .container-xl {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+}
+
+/* ─── HOVER SCALE ────────────────────────────────────────────────────────────── */
+
+.hover-scale-card {
+  transition: transform 0.2s ease;
+}
+.hover-scale-card:hover {
+  transform: scale(1.02);
+}
+
+.hover-scale-button {
+  transition: transform 0.2s ease;
+}
+.hover-scale-button:hover {
+  transform: scale(1.04);
+}
