@@ -6,7 +6,11 @@ import AppointmentForm from "@/components/ui/AppointmentForm";
 import TrackedLink from "@/components/ui/TrackedLink";
 import FeatureMarquee from "@/components/ui/FeatureMarquee";
 import DoctorPhoto from "@/components/ui/DoctorPhoto";
-import { TreatmentIconFor, CheckIcon, ArrowRightIcon } from "@/components/ui/icons";
+import {
+  TreatmentIconFor, CheckIcon, ArrowRightIcon,
+  XRayIcon, ClinicIcon, SmileDesignIcon, CareIcon,
+  ClockIcon, PhoneIcon,
+} from "@/components/ui/icons";
 import PremiumFAQ from "@/components/ui/PremiumFAQ";
 import {
   RevealUp,
@@ -50,237 +54,391 @@ export default function HomePage() {
         aria-labelledby="hero-heading"
         style={{
           position: "relative",
-          minHeight: "100dvh", // Dynamic viewport height instead of 100vh
+          minHeight: "100dvh",
           display: "flex",
           alignItems: "center",
           overflow: "hidden",
-          paddingTop: "100px", // Add padding for slim navbar
         }}
         className="hero-section"
       >
-        {/* Full-bleed video background */}
+        {/* ── Full-bleed video ── */}
         <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "cover",
-            zIndex: -1,
-          }}
+          autoPlay loop muted playsInline preload="auto"
+          style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
           aria-hidden="true"
         >
           <source src="/images/hero video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
         </video>
 
-        {/* Mobile gradient overlay for text contrast */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "linear-gradient(135deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.1) 40%, transparent 80%)",
-            zIndex: 0,
-            display: "block",
-          }}
-          className="mobile-hero-overlay"
-          aria-hidden="true"
-        />
+        {/* ── Left-side gradient scrim — keeps text legible without killing the video ── */}
+        <div aria-hidden="true" style={{
+          position: "absolute", inset: 0, zIndex: 1,
+          background: "linear-gradient(105deg, rgba(0,0,0,0.62) 0%, rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.08) 75%, transparent 100%)",
+        }} />
+        {/* Bottom fade */}
+        <div aria-hidden="true" style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, height: "220px", zIndex: 1,
+          background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)",
+        }} />
 
-        {/* Content overlay */}
-        <div className="container-xl" style={{ position: "relative", zIndex: 1 }}>
-          <div
-            style={{
-              maxWidth: "680px",
-              color: "var(--color-honeydew)",
-            }}
-          >
-            {/* Eyebrow */}
-            <RevealUp delay={0.1}>
-              <p
-                style={{
-                  fontSize: "0.8125rem",
-                  letterSpacing: "0.12em",
-                  textTransform: "uppercase",
-                  color: "var(--color-jonquil)",
-                  fontWeight: 600,
-                  fontFamily: "var(--font-utility)",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.625rem",
-                  marginBottom: "1.375rem",
-                }}
-              >
-                <span
-                  style={{
-                    display: "inline-block",
-                    width: "28px",
-                    height: "2px",
-                    background: "var(--color-jonquil)",
-                    flexShrink: 0,
-                  }}
-                  aria-hidden="true"
-                />
-                Pala · Kottayam · Kerala
-              </p>
-            </RevealUp>
+        {/* ── Content layer ── */}
+        <div className="container-xl hero-container" style={{ position: "relative", zIndex: 2, width: "100%", paddingTop: "120px", paddingBottom: "80px" }}>
+          <div className="hero-layout">
 
-            {/* Headline */}
-            <RevealUp delay={0.2}>
-              <h1
-                id="hero-heading"
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(2.25rem, 6vw + 0.5rem, 5.25rem)", // Smaller starting size on mobile
-                  fontWeight: 400,
-                  color: "var(--color-honeydew)",
-                  lineHeight: "clamp(1.1, 2vw + 0.9, 1.02)", // Better mobile line height
-                  letterSpacing: "-0.03em",
-                  marginBottom: "1.625rem",
-                  textShadow: "0 2px 8px rgba(0, 0, 0, 0.3)",
-                }}
-              >
-                <span style={{ display: "block" }}>Dental Clinic in</span>
-                <span style={{ display: "block" }} className="text-gradient-botanical">Pala, Kottayam District</span>
-              </h1>
-            </RevealUp>
+            {/* ── LEFT: Editorial text + feature cards ── */}
+            <div className="hero-left">
 
-            {/* Body */}
-            <RevealUp delay={0.3}>
-              <p
-                style={{
-                  fontSize: "clamp(0.9375rem, 2vw, 1.125rem)",
-                  color: "var(--color-honeydew)",
-                  lineHeight: 1.75,
-                  maxWidth: "540px",
-                  fontFamily: "var(--font-sans)",
-                  marginBottom: "2.25rem",
-                  opacity: 0.95,
-                  textShadow: "0 1px 4px rgba(0, 0, 0, 0.2)",
-                }}
-              >
-                Smile Architects is a multispeciality dental clinic and advanced orthodontic centre in Pala, Kottayam. General dentistry, braces, dental implants, smile design and more — led by Dr. Jeo Tom Charls, MDS Orthodontics.
-              </p>
-            </RevealUp>
+              {/* Eyebrow */}
+              <RevealUp delay={0.05}>
+                <p className="hero-eyebrow">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ display: "inline", marginRight: "6px", verticalAlign: "middle" }}>
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="rgba(255,255,255,0.7)" />
+                  </svg>
+                  Pala, Kottayam, Kerala
+                </p>
+              </RevealUp>
 
-            {/* CTAs */}
-            <RevealUp delay={0.42}>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "0.875rem",
-                  flexWrap: "wrap",
-                  marginBottom: "2.5rem",
-                }}
-              >
-                <Link href="/book-appointment" className="btn btn-secondary btn-lg">
-                  Book an Appointment
-                </Link>
-                <Link href={`tel:${CLINIC.contact.phone}`} className="btn btn-ghost-light btn-lg">
-                  Call {CLINIC.contact.phoneDisplay}
-                </Link>
+              {/* Headline */}
+              <RevealUp delay={0.15}>
+                <h1 id="hero-heading" className="hero-title">
+                  <span className="hero-title-white">Advanced Dental<br />Care &amp;</span>
+                  <br />
+                  <span className="hero-title-gold">Smile Design</span>
+                </h1>
+              </RevealUp>
+
+              {/* Description */}
+              <RevealUp delay={0.25}>
+                <p className="hero-desc">
+                  Multispeciality dental clinic &amp; advanced orthodontics led by{" "}
+                  <span style={{ color: "var(--color-jonquil)", fontWeight: 500 }}>Dr. Jeo Tom Charls</span>, MDS.
+                </p>
+              </RevealUp>
+
+              {/* CTAs */}
+              <RevealUp delay={0.35}>
+                <div className="hero-cta-row">
+                  <Link href="/treatments" className="hero-btn-primary">Explore Treatments</Link>
+                  <Link href="/book-appointment" className="hero-btn-ghost">Book an Appointment →</Link>
+                </div>
+              </RevealUp>
+
+              {/* Four feature cards */}
+              <RevealUp delay={0.5}>
+                <div className="hero-feature-cards">
+                  {[
+                    { icon: <XRayIcon size={22} />,        label: "Advanced\nTechnology" },
+                    { icon: <ClinicIcon size={22} />,      label: "Multispeciality\nCare" },
+                    { icon: <SmileDesignIcon size={22} />, label: "Smile Design\nExperts" },
+                    { icon: <CareIcon size={22} />,        label: "Patient First\nApproach" },
+                  ].map(({ icon, label }) => (
+                    <div key={label} className="hero-feature-card">
+                      <span className="hero-feature-icon">{icon}</span>
+                      <span className="hero-feature-label">{label.split("\n").map((l, i) => (
+                        <span key={i} style={{ display: "block" }}>{l}</span>
+                      ))}</span>
+                    </div>
+                  ))}
+                </div>
+              </RevealUp>
+            </div>
+
+            {/* ── RIGHT: Floating clinic card ── */}
+            <RevealUp delay={0.4} className="hero-clinic-card-wrap">
+              <div className="hero-clinic-card">
+                {/* Header */}
+                <div className="clinic-card-header">
+                  <ClockIcon size={16} color="var(--color-olive)" />
+                  <span className="clinic-card-eyebrow">Clinic Hours</span>
+                </div>
+
+                {/* Hours */}
+                <div className="clinic-card-hours">
+                  <p className="clinic-day">Mon – Sat</p>
+                  <p className="clinic-time">9:30 AM – 8:00 PM</p>
+                </div>
+
+                <hr className="clinic-card-divider" />
+
+                {/* Features */}
+                <ul className="clinic-card-features">
+                  {["Experienced Specialists", "Modern Infrastructure", "Personalized Care"].map((item) => (
+                    <li key={item} className="clinic-card-feature-item">
+                      <span className="clinic-check-icon"><CheckIcon size={15} color="var(--color-dark-moss)" /></span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                {/* CTA */}
+                <a href={`tel:${CLINIC.contact.phone}`} className="clinic-call-btn">
+                  <PhoneIcon size={16} />
+                  Tap to Call
+                </a>
               </div>
             </RevealUp>
 
-            {/* Meta strip */}
-            <RevealUp delay={0.6}>
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(120px, 1fr))",
-                  gap: "1.25rem",
-                  paddingTop: "1.75rem",
-                  borderTop: "1.5px solid rgba(236, 245, 226, 0.3)",
-                  maxWidth: "480px",
-                }}
-              >
-                {[
-                  { label: "Mon–Sat", value: "9:30 AM – 8:00 PM" },
-                  { label: "Location", value: "Pala, Kottayam" },
-                  { label: "Orthodontics", value: "MDS Specialist" },
-                ].map((item) => (
-                  <div key={item.label}>
-                    <p
-                      style={{
-                        fontSize: "0.6875rem",
-                        color: "var(--color-jonquil)",
-                        fontWeight: 600,
-                        textTransform: "uppercase",
-                        letterSpacing: "0.08em",
-                        fontFamily: "var(--font-utility)",
-                        marginBottom: "0.25rem",
-                      }}
-                    >
-                      {item.label}
-                    </p>
-                    <p
-                      style={{
-                        fontSize: "0.9375rem",
-                        color: "var(--color-honeydew)",
-                        fontFamily: "var(--font-sans)",
-                        fontWeight: 500,
-                        opacity: 0.9,
-                      }}
-                    >
-                      {item.value}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </RevealUp>
           </div>
         </div>
 
+        {/* ── Styles ── */}
         <style>{`
-          @media (max-width: 600px) {
-            .btn-lg {
-              flex: 1 1 auto;
-              min-width: 140px;
-              padding: 1rem 1.5rem;
-            }
+          /* ── Layout ── */
+          .hero-layout {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            width: 100%;
           }
-          @media (max-width: 420px) {
-            .btn-lg {
-              width: 100%;
-              justify-content: center;
-              text-align: center;
-              padding: 1.25rem 1.5rem;
-            }
+          .hero-left {
+            flex: 1;
+            max-width: 580px;
           }
-          /* Ensure video covers full viewport on mobile - USE DYNAMIC VIEWPORT UNITS */
+
+          /* ── Eyebrow ── */
+          .hero-eyebrow {
+            font-size: 0.75rem;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.72);
+            font-weight: 600;
+            font-family: var(--font-utility);
+            margin-bottom: 1.25rem;
+          }
+
+          /* ── Headline ── */
+          .hero-title {
+            font-family: var(--font-serif);
+            font-size: clamp(2.75rem, 5.5vw, 5rem);
+            font-weight: 400;
+            line-height: 1.08;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.375rem;
+          }
+          .hero-title-white { color: #ffffff; }
+          .hero-title-gold  { color: var(--color-jonquil); }
+
+          /* ── Description ── */
+          .hero-desc {
+            font-size: clamp(0.9375rem, 1.6vw, 1.0625rem);
+            color: rgba(255,255,255,0.88);
+            line-height: 1.7;
+            font-family: var(--font-sans);
+            font-weight: 300;
+            max-width: 460px;
+            margin-bottom: 2rem;
+          }
+
+          /* ── CTAs ── */
+          .hero-cta-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem 1.5rem;
+            margin-bottom: 2.5rem;
+          }
+          .hero-btn-primary {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 32px;
+            background: var(--color-jonquil);
+            color: var(--color-dark-moss);
+            border-radius: 9999px;
+            font-size: 0.9375rem;
+            font-weight: 700;
+            font-family: var(--font-sans);
+            text-decoration: none;
+            box-shadow: 0 6px 20px rgba(234,200,0,0.28);
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            min-height: 48px;
+            letter-spacing: 0.01em;
+          }
+          .hero-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 28px rgba(234,200,0,0.38);
+          }
+          .hero-btn-ghost {
+            color: rgba(255,255,255,0.88);
+            font-size: 0.9375rem;
+            font-family: var(--font-sans);
+            font-weight: 500;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(255,255,255,0.35);
+            padding-bottom: 2px;
+            transition: all 0.25s ease;
+          }
+          .hero-btn-ghost:hover {
+            color: #fff;
+            border-bottom-color: rgba(255,255,255,0.75);
+          }
+
+          /* ── Feature Cards ── */
+          .hero-feature-cards {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+          }
+          .hero-feature-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 0.5rem;
+            padding: 0.875rem 1rem;
+            background: rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.22);
+            backdrop-filter: blur(12px) saturate(120%);
+            -webkit-backdrop-filter: blur(12px) saturate(120%);
+            border-radius: 16px;
+            min-width: 90px;
+            flex: 1;
+            transition: background 0.25s ease, transform 0.25s ease;
+          }
+          .hero-feature-card:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+          }
+          .hero-feature-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.18);
+            border-radius: 10px;
+            color: #ffffff;
+          }
+          .hero-feature-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.9);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            line-height: 1.3;
+          }
+
+          /* ── Clinic Card ── */
+          .hero-clinic-card-wrap {
+            flex-shrink: 0;
+            width: 300px;
+          }
+          .hero-clinic-card {
+            background: rgba(255,255,255,0.97);
+            backdrop-filter: blur(32px) saturate(140%);
+            -webkit-backdrop-filter: blur(32px) saturate(140%);
+            border-radius: 28px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15), 0 4px 16px rgba(0,0,0,0.08);
+            border: 1px solid rgba(255,255,255,0.6);
+          }
+          .clinic-card-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+          }
+          .clinic-card-eyebrow {
+            font-size: 0.6875rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-olive);
+            font-family: var(--font-utility);
+          }
+          .clinic-card-hours {
+            margin-bottom: 1.5rem;
+          }
+          .clinic-day {
+            font-size: 1.375rem;
+            font-weight: 700;
+            color: var(--color-dark-moss);
+            font-family: var(--font-sans);
+            margin-bottom: 0.25rem;
+          }
+          .clinic-time {
+            font-size: 1rem;
+            color: var(--color-olive);
+            font-family: var(--font-sans);
+            font-weight: 400;
+          }
+          .clinic-card-divider {
+            border: none;
+            border-top: 1px solid rgba(0,0,0,0.08);
+            margin: 0 0 1.25rem 0;
+          }
+          .clinic-card-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 1.5rem 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+          }
+          .clinic-card-feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.625rem;
+            font-size: 0.9rem;
+            color: var(--color-dark-moss);
+            font-family: var(--font-sans);
+            font-weight: 500;
+          }
+          .clinic-check-icon {
+            flex-shrink: 0;
+            display: flex;
+          }
+          .clinic-call-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem;
+            background: var(--color-dark-moss);
+            color: white;
+            border-radius: 14px;
+            text-decoration: none;
+            font-family: var(--font-sans);
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+            box-shadow: 0 4px 14px rgba(37,78,6,0.25);
+          }
+          .clinic-call-btn:hover {
+            background: var(--color-olive);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(37,78,6,0.35);
+          }
+
+          /* ── Responsive ── */
+          @media (max-width: 1023px) {
+            .hero-clinic-card-wrap { display: none; }
+            .hero-layout { flex-direction: column; align-items: flex-start; }
+          }
+
           @media (max-width: 768px) {
-            .hero-section {
-              min-height: 100dvh; /* Dynamic viewport height for mobile browsers */
-              padding-top: 40px !important; /* Much less padding for ultra-slim navbar */
+            .hero-container {
+              padding-top: 90px !important;
+              padding-bottom: 100px !important;
             }
-          }
-          /* Text shadows for video contrast */
-          .hero-section h1 {
-            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6), 0 1px 3px rgba(0, 0, 0, 0.3) !important;
-          }
-          .hero-section p {
-            text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5) !important;
-          }
-          /* Mobile overlay - only show on mobile */
-          @media (min-width: 769px) {
-            .mobile-hero-overlay {
-              display: none !important;
+            .hero-feature-cards {
+              gap: 0.5rem;
             }
+            .hero-feature-card {
+              min-width: 75px;
+              padding: 0.75rem 0.625rem;
+            }
+            .hero-feature-label { font-size: 0.6875rem; }
           }
-          /* Pause video on reduced motion preference */
+
+          @media (max-width: 480px) {
+            .hero-feature-cards { gap: 0.4rem; }
+            .hero-cta-row { flex-direction: column; align-items: flex-start; }
+          }
+
+          /* ── Reduced motion ── */
           @media (prefers-reduced-motion: reduce) {
-            video {
-              animation-play-state: paused !important;
-            }
+            video { display: none; }
           }
         `}</style>
       </section>

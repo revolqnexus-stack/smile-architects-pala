@@ -5,8 +5,8 @@ import { CLINIC } from "@/lib/site-config";
 import { PhoneIcon, WhatsAppIcon, CalendarIcon } from "@/components/ui/icons";
 
 /**
- * Ultra-sleek floating action pill for mobile.
- * Minimal, rounded pill anchored to bottom with proper safe-area.
+ * Floating action pill for mobile — fixed to bottom with proper safe-area.
+ * z-index: 40 — above content, below navbar (1000), avoids chat bubbles.
  */
 export default function MobileAppointmentBar() {
   return (
@@ -14,22 +14,23 @@ export default function MobileAppointmentBar() {
       {/* Floating Action Pill */}
       <div
         aria-label="Quick actions"
+        role="navigation"
         style={{
           position: "fixed",
-          bottom: "max(1rem, env(safe-area-inset-bottom) + 1rem)", // Safe area + margin
+          // Use calc to sit above gesture zone + give visual breathing room
+          bottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)",
           left: "1rem",
           right: "1rem",
-          zIndex: 35, // Lower than navbar but above content
-          backgroundColor: "rgba(37, 78, 6, 0.92)",
-          backdropFilter: "blur(20px) saturate(160%)",
-          WebkitBackdropFilter: "blur(20px) saturate(160%)",
-          borderRadius: "20px",
-          border: "1px solid rgba(255, 255, 255, 0.12)",
-          padding: "0.75rem",
+          zIndex: 40,
+          backgroundColor: "rgba(30, 60, 6, 0.95)",
+          backdropFilter: "blur(24px) saturate(180%)",
+          WebkitBackdropFilter: "blur(24px) saturate(180%)",
+          borderRadius: "22px",
+          border: "1px solid rgba(255, 255, 255, 0.1)",
+          padding: "0.625rem",
           display: "flex",
           gap: "0.5rem",
-          justifyContent: "space-between",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+          boxShadow: "0 -2px 0 rgba(255,255,255,0.04), 0 8px 32px rgba(0,0,0,0.3)",
         }}
         className="mobile-action-bar"
       >
@@ -42,22 +43,15 @@ export default function MobileAppointmentBar() {
             alignItems: "center",
             justifyContent: "center",
             gap: "0.375rem",
-            padding: "0.75rem 0.875rem",
-            backgroundColor: "rgba(255, 255, 255, 0.08)",
-            color: "var(--color-honeydew)",
+            padding: "0.75rem 0.5rem",
+            backgroundColor: "rgba(255, 255, 255, 0.07)",
+            color: "rgba(236, 245, 226, 0.9)",
             textDecoration: "none",
-            borderRadius: "14px",
-            fontSize: "0.8125rem", // Smaller text
+            borderRadius: "16px",
+            fontSize: "0.8125rem",
             fontWeight: 600,
             fontFamily: "var(--font-sans)",
-            transition: "all 0.2s ease",
-            minHeight: "44px", // 44px minimum touch target
-          }}
-          onTouchStart={(e) => {
-            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.15)";
-          }}
-          onTouchEnd={(e) => {
-            e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+            minHeight: "44px",
           }}
           aria-label={`Call ${CLINIC.contact.phoneDisplay}`}
         >
@@ -65,33 +59,27 @@ export default function MobileAppointmentBar() {
           <span>Call</span>
         </a>
 
-        {/* WhatsApp - Primary */}
+        {/* WhatsApp */}
         <a
           href={CLINIC.social.whatsapp}
           target="_blank"
           rel="noopener noreferrer"
           style={{
-            flex: 1.1, // Slightly larger for primary action
+            flex: 1.2,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
             gap: "0.375rem",
-            padding: "0.75rem 0.875rem",
+            padding: "0.75rem 0.5rem",
             backgroundColor: "#25D366",
             color: "#ffffff",
             textDecoration: "none",
-            borderRadius: "14px",
-            fontSize: "0.8125rem", // Smaller text
+            borderRadius: "16px",
+            fontSize: "0.8125rem",
             fontWeight: 600,
             fontFamily: "var(--font-sans)",
-            transition: "all 0.2s ease",
-            minHeight: "44px", // 44px minimum touch target
-          }}
-          onTouchStart={(e) => {
-            e.currentTarget.style.backgroundColor = "#20BA5A";
-          }}
-          onTouchEnd={(e) => {
-            e.currentTarget.style.backgroundColor = "#25D366";
+            minHeight: "44px",
+            boxShadow: "0 2px 8px rgba(37,211,102,0.3)",
           }}
           aria-label="Chat on WhatsApp"
         >
@@ -108,22 +96,16 @@ export default function MobileAppointmentBar() {
             alignItems: "center",
             justifyContent: "center",
             gap: "0.375rem",
-            padding: "0.75rem 0.875rem",
+            padding: "0.75rem 0.5rem",
             backgroundColor: "var(--color-jonquil)",
             color: "var(--color-dark-moss)",
             textDecoration: "none",
-            borderRadius: "14px",
-            fontSize: "0.8125rem", // Smaller text
-            fontWeight: 600,
+            borderRadius: "16px",
+            fontSize: "0.8125rem",
+            fontWeight: 700,
             fontFamily: "var(--font-sans)",
-            transition: "all 0.2s ease",
-            minHeight: "44px", // 44px minimum touch target
-          }}
-          onTouchStart={(e) => {
-            (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-harvest-gold)";
-          }}
-          onTouchEnd={(e) => {
-            (e.currentTarget as HTMLElement).style.backgroundColor = "var(--color-jonquil)";
+            minHeight: "44px",
+            boxShadow: "0 2px 8px rgba(234,200,0,0.25)",
           }}
           aria-label="Book appointment"
         >
@@ -133,21 +115,20 @@ export default function MobileAppointmentBar() {
       </div>
 
       <style>{`
+        /* Only show on mobile */
         @media (min-width: 768px) { 
           .mobile-action-bar { 
             display: none !important; 
           } 
         }
         
-        /* CRITICAL: Proper content padding so nothing is hidden by floating bar */
+        /* Ensure content scrolls past the bar height + safe area */
         @media (max-width: 767px) {
           main {
-            padding-bottom: max(120px, env(safe-area-inset-bottom) + 120px) !important;
+            padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 100px) !important;
           }
         }
       `}</style>
     </>
   );
 }
-
-

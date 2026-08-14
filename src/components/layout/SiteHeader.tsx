@@ -97,61 +97,54 @@ export default function SiteHeader() {
 
   return (
     <>
-      {/* ── FLOATING NAVBAR ──────────────────────────────────── */}
+      {/* ── LIQUID GLASS NAVBAR (FULL WIDTH FILLED) ──────────────────────────────────── */}
       <motion.header
         role="banner"
-        initial={{ opacity: 0, y: -20, scale: 0.98 }}
-        animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.6, ease: EASE_SPRING }}
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ 
+          opacity: 1, 
+          y: 0,
+          backgroundColor: bgOpacity,
+          boxShadow: shadowValue,
+          borderBottomColor: borderColor,
+        }}
+        transition={{ duration: 0.5, ease: EASE_SPRING }}
         className="navbar-root"
         style={{
           position: "fixed",
-          top: scrolled ? "8px" : "12px",
+          top: 0,
           left: 0,
           right: 0,
           zIndex: 1000,
-          display: "flex",
-          justifyContent: "center",
-          padding: "0 24px",
-          transition: "top 0.3s cubic-bezier(0.4,0,0.2,1)",
-          pointerEvents: "none",
-          maxHeight: "72px", // Strict height limit
+          backdropFilter: blurAmount,
+          WebkitBackdropFilter: blurAmount,
+          borderBottom: "1px solid",
+          // Clean glass highlight layer
+          backgroundImage: "linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 100%)",
         }}
       >
-        <motion.div
-          className="navbar-pill"
-          animate={{
-            backgroundColor: bgOpacity,
-            boxShadow: shadowValue,
-            borderColor: borderColor,
-          }}
-          transition={{ duration: 0.4, ease: "easeOut" }}
+        <div
+          className="navbar-container"
           style={{
-            width: "100%",
             maxWidth: "1400px",
-            borderRadius: "28px",
-            border: "1px solid",
-            backdropFilter: blurAmount,
-            WebkitBackdropFilter: blurAmount,
+            margin: "0 auto",
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            padding: scrolled ? "0.5rem 1.125rem" : "0.75rem 1.25rem",
+            padding: scrolled ? "0.75rem 1.5rem" : "1rem 1.5rem",
             gap: "2rem",
-            transition: "padding 0.4s cubic-bezier(0.16,1,0.3,1)",
-            pointerEvents: "all",
-            // Clean glass highlight layer (no muddy gradients)
-            backgroundImage: "linear-gradient(180deg, rgba(255,255,255,0.12) 0%, rgba(255,255,255,0) 100%)",
+            transition: "padding 0.3s cubic-bezier(0.16,1,0.3,1)",
             position: "relative",
-            overflow: "visible",
           }}
         >
-          {/* Glass inner highlight - more subtle */}
+          {/* Glass inner highlight - subtle shine */}
           <div style={{
             position: "absolute",
-            inset: 0,
-            borderRadius: "inherit",
-            background: "linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%)",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "1px",
+            background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.4) 50%, transparent 100%)",
             pointerEvents: "none",
           }} aria-hidden="true" />
 
@@ -161,19 +154,61 @@ export default function SiteHeader() {
             aria-label="Smile Architects — Home"
             style={{ textDecoration: "none", flexShrink: 0, zIndex: 1 }}
           >
-            <motion.div whileHover={{ scale: 1.02 }} transition={{ duration: 0.2 }}>
+            <motion.div 
+              className="navbar-logo-wrapper"
+              whileHover={{ scale: 1.02 }} 
+              transition={{ duration: 0.2 }}
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "0.625rem",
+              }}
+            >
+              {/* Logo icon - desktop logo.png */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src="/images/logo.png"
-                alt="Smile Architects"
+                alt=""
+                aria-hidden="true"
+                className="navbar-logo-img navbar-logo-desktop"
                 style={{
-                  height: scrolled ? "56px" : "64px", // Dramatically smaller logo for slim navbar
+                  height: scrolled ? "36px" : "40px",
                   width: "auto",
                   objectFit: "contain",
-                  transition: "height 0.4s cubic-bezier(0.16,1,0.3,1)",
+                  transition: "height 0.3s cubic-bezier(0.16,1,0.3,1)",
                 }}
-                className="navbar-logo"
               />
+              {/* Logo icon - mobile MOBILE LOGO.png */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src="/images/MOBILE LOGO.png"
+                alt=""
+                aria-hidden="true"
+                className="navbar-logo-img navbar-logo-mobile"
+                style={{
+                  height: scrolled ? "36px" : "40px",
+                  width: "auto",
+                  objectFit: "contain",
+                  transition: "height 0.3s cubic-bezier(0.16,1,0.3,1)",
+                  display: "none",
+                }}
+              />
+              {/* Wordmark - mobile only */}
+              <span
+                className="navbar-logo-text"
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: scrolled ? "1.125rem" : "1.25rem",
+                  fontWeight: 400,
+                  color: "var(--color-dark-moss)",
+                  letterSpacing: "-0.02em",
+                  lineHeight: 1,
+                  whiteSpace: "nowrap",
+                  transition: "font-size 0.3s cubic-bezier(0.16,1,0.3,1)",
+                }}
+              >
+                Smile Architects
+              </span>
             </motion.div>
           </Link>
 
@@ -308,6 +343,7 @@ export default function SiteHeader() {
               cursor: "pointer",
               flexShrink: 0,
               zIndex: 1,
+              transition: "all 0.2s ease",
             }}
           >
             <motion.span
@@ -327,7 +363,7 @@ export default function SiteHeader() {
             />
           </button>
 
-        </motion.div>
+        </div>
       </motion.header>
 
       {/* ── FULL-SCREEN MOBILE MENU ──────────────────────────── */}
@@ -336,44 +372,48 @@ export default function SiteHeader() {
       </AnimatePresence>
 
       <style>{`
-        /* Desktop: show nav + actions, hide hamburger */
+        /* Desktop: show nav + actions, hide hamburger, hide clinic name, larger logo, show desktop logo */
         @media (min-width: 1024px) {
           .navbar-nav    { display: flex !important; }
           .navbar-actions { display: flex !important; }
           .hamburger-btn { display: none !important; }
+          .navbar-logo-text { display: none !important; }
+          .navbar-logo-desktop { display: block !important; height: 70px !important; }
+          .navbar-logo-mobile { display: none !important; }
         }
-        /* Mobile/tablet: hide nav + actions, show hamburger */
+        /* Mobile/tablet: hide nav + actions, show hamburger, show clinic name, show mobile logo */
         @media (max-width: 1023px) {
           .navbar-nav     { display: none !important; }
           .navbar-actions { display: none !important; }
           .hamburger-btn  { display: flex !important; }
+          .navbar-logo-text { display: block !important; }
+          .navbar-logo-desktop { display: none !important; }
+          .navbar-logo-mobile { display: block !important; }
         }
         
-        /* MOBILE SLIM NAVBAR - Ultra minimal for premium glass effect */
+        /* MOBILE NAVBAR - Filled glass bar */
         @media (max-width: 768px) {
-          .navbar-root {
-            padding: 0 16px !important;
-            top: 6px !important; /* Closer to top edge */
+          .navbar-container {
+            padding: 0.875rem 1rem !important;
           }
-          .navbar-pill {
-            padding: 0.4375rem 0.875rem !important; /* Tighter padding */
-            border-radius: 18px !important;
-            max-width: none !important;
+          .navbar-logo-text {
+            font-size: 1.0625rem !important;
           }
-          /* Scale down logo dramatically on mobile */
-          .navbar-logo {
-            height: 26px !important; /* Even smaller for ultra-slim navbar */
+          .hamburger-btn:active {
+            transform: scale(0.95);
           }
-          /* Ensure hamburger aligns perfectly with logo */
-          .hamburger-btn {
-            width: 40px !important;
-            height: 40px !important;
-            padding: 0 !important;
+        }
+        
+        /* Extra small screens */
+        @media (max-width: 480px) {
+          .navbar-container {
+            padding: 0.75rem 0.875rem !important;
+            gap: 1rem !important;
           }
         }
         
         /* Ensure links have min tap height */
-        .navbar-pill a, .navbar-pill button { min-height: 36px; }
+        .navbar-root a, .navbar-root button { min-height: 36px; }
       `}</style>
     </>
   );
