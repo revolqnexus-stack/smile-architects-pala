@@ -17,8 +17,26 @@ export default function AdminLoginPage() {
     setLoading(true);
 
     try {
+      // Try API login first (hardcoded auth)
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Also store in localStorage for client-side checks
+        localStorage.setItem('admin_session', JSON.stringify(data.session));
+        router.push('/jeotomadmin/dashboard');
+        router.refresh(); // Force refresh to re-check auth
+        return;
+      }
+
+      // If API login fails, try Supabase
       await signIn(email, password);
       router.push('/jeotomadmin/dashboard');
+      router.refresh();
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : 'Invalid email or password';
       setError(errorMessage);

@@ -51,23 +51,45 @@ export async function signOut() {
 }
 
 export async function getSession() {
-  // Check for hardcoded session first
-  if (typeof window !== 'undefined') {
-    const storedSession = localStorage.getItem('admin_session');
-    if (storedSession) {
+  // For server-side rendering, check cookies
+  if (typeof window === 'undefined') {
+    // Server-side: Check for hardcoded auth cookie
+    const { cookies } = await import('next/headers');
+    const cookieStore = await cookies();
+    const adminSession = cookieStore.get('admin_session');
+    
+    if (adminSession) {
       try {
-        const session = JSON.parse(storedSession);
-        // Check if session is still valid (not expired)
+        const session = JSON.parse(adminSession.value);
         if (session.expires_at > Date.now()) {
           return session;
-        } else {
-          // Session expired, remove it
-          localStorage.removeItem('admin_session');
         }
       } catch (e) {
-        // Invalid session data, remove it
+        // Invalid session
+      }
+    }
+
+    // Fall back to Supabase session
+    if (!isSupabaseConfigured()) {
+      return null;
+    }
+
+    const { data: { session } } = await supabase.auth.getSession();
+    return session;
+  }
+
+  // Client-side: Check localStorage
+  const storedSession = localStorage.getItem('admin_session');
+  if (storedSession) {
+    try {
+      const session = JSON.parse(storedSession);
+      if (session.expires_at > Date.now()) {
+        return session;
+      } else {
         localStorage.removeItem('admin_session');
       }
+    } catch (e) {
+      localStorage.removeItem('admin_session');
     }
   }
 
