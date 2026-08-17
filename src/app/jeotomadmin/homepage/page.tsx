@@ -30,7 +30,8 @@ export default function HomepageEditorPage() {
   const fetchHomepageContent = async () => {
     setLoading(true);
     try {
-      const { data } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data } = await (supabase as any)
         .from('homepage_content')
         .select('*')
         .eq('section', 'hero')
@@ -46,7 +47,8 @@ export default function HomepageEditorPage() {
         setHeroCtaSecondaryLink(content.ctaSecondaryLink || heroCtaSecondaryLink);
       }
 
-      const { data: hoursData } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: hoursData } = await (supabase as any)
         .from('homepage_content')
         .select('*')
         .eq('section', 'clinic-hours')
@@ -72,7 +74,8 @@ export default function HomepageEditorPage() {
 
     try {
       // Save hero section
-      const { error: heroError } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: heroError } = await (supabase as any)
         .from('homepage_content')
         .upsert({
           section: 'hero',
@@ -92,7 +95,8 @@ export default function HomepageEditorPage() {
       if (heroError) throw heroError;
 
       // Save clinic hours
-      const { error: hoursError } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: hoursError } = await (supabase as any)
         .from('homepage_content')
         .upsert({
           section: 'clinic-hours',

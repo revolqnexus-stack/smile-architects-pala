@@ -46,7 +46,8 @@ export default function MediaLibraryClient({ initialMedia }: MediaLibraryClientP
         .from('site-media')
         .getPublicUrl(fileName);
 
-      const { data: mediaRecord, error: dbError } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data: mediaRecord, error: dbError } = await (supabase as any)
         .from('media')
         .insert({
           filename: file.name,

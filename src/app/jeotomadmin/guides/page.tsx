@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/supabase/auth';
-import { supabase } from '@/lib/supabase/client';
+import { getGuides } from '@/lib/supabase/queries';
 import Link from 'next/link';
 import AdminShell from '@/components/admin/AdminShell';
 
@@ -8,10 +8,7 @@ export default async function GuidesPage() {
   const session = await getSession();
   if (!session) redirect('/jeotomadmin/login');
 
-  const { data: guides } = await supabase
-    .from('dental_guides')
-    .select('*')
-    .order('created_at', { ascending: false });
+  const guides = await getGuides();
 
   return (
     <AdminShell>

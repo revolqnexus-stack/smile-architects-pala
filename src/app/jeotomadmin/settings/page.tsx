@@ -26,7 +26,8 @@ export default function SettingsPage() {
   const fetchSettings = async () => {
     setLoading(true);
     try {
-      const { data } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { data } = await (supabase as any)
         .from('site_settings')
         .select('*')
         .eq('key', 'clinic_info')
@@ -56,7 +57,8 @@ export default function SettingsPage() {
     setSaving(true);
 
     try {
-      const { error: saveError } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: saveError } = await (supabase as any)
         .from('site_settings')
         .upsert({
           key: 'clinic_info',

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/supabase/auth';
-import { supabase } from '@/lib/supabase/client';
+import { getDoctors } from '@/lib/supabase/queries';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 
@@ -8,10 +8,7 @@ export default async function DoctorsListPage() {
   const session = await getSession();
   if (!session) redirect('/jeotomadmin/login');
 
-  const { data: doctors } = await supabase
-    .from('doctors')
-    .select('*')
-    .order('display_order', { ascending: true });
+  const doctors = await getDoctors();
 
   return (
     <AdminLayout>

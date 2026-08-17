@@ -30,7 +30,8 @@ export default function NewGuidePage() {
     try {
       const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
-      const { error: insertError } = await supabase.from('dental_guides').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: insertError } = await (supabase as any).from('dental_guides').insert({
         slug,
         title,
         excerpt: excerpt || null,

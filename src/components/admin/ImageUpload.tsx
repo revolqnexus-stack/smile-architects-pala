@@ -69,7 +69,8 @@ export default function ImageUpload({
         .getPublicUrl(filePath);
 
       // Save to media table
-      await supabase.from('media').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (supabase as any).from('media').insert({
         filename: file.name,
         storage_path: filePath,
         public_url: publicUrl,

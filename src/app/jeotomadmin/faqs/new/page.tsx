@@ -21,7 +21,8 @@ export default function NewFAQPage() {
     setLoading(true);
 
     try {
-      const { error: insertError } = await supabase.from('faqs').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: insertError } = await (supabase as any).from('faqs').insert({
         question,
         answer,
         category: category || null,

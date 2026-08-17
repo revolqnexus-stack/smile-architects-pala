@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase/client';
+import { type Doctor } from '@/lib/supabase/queries';
 import AdminShell from '@/components/admin/AdminShell';
 import ImagePicker from '@/components/admin/ImagePicker';
 
@@ -51,26 +52,27 @@ export default function EditDoctorPage() {
 
       if (error) throw error;
 
-      if (data) {
-        setName(data.name);
-        setQualifications(data.qualifications);
-        setSpecialty(data.specialty);
-        setDesignation(data.designation || '');
-        setPhotoUrl(data.photo_url || '');
-        setBio(data.bio || '');
-        setVisiting(data.visiting || false);
-        setRegistrationBody(data.registration_body || '');
-        setRegistrationNumber(data.registration_number || '');
-        setRegistrationYear(data.registration_year || '');
-        setRoles(data.roles ? data.roles.join('\n') : '');
-        setMemberships(data.memberships ? data.memberships.join('\n') : '');
-        setEducation(data.education ? JSON.stringify(data.education, null, 2) : '');
-        setProfessionalExperience(data.professional_experience ? data.professional_experience.join('\n') : '');
-        setTraining(data.training ? data.training.join('\n') : '');
-        setAreasOfExpertise(data.areas_of_expertise ? data.areas_of_expertise.join('\n') : '');
-        setSeoTitle(data.seo_title || '');
-        setSeoDescription(data.seo_description || '');
-        setPublished(data.published || false);
+      const doctor = data as Doctor;
+      if (doctor) {
+        setName(doctor.name);
+        setQualifications(doctor.qualifications);
+        setSpecialty(doctor.specialty);
+        setDesignation(doctor.designation || '');
+        setPhotoUrl(doctor.photo_url || '');
+        setBio(doctor.bio || '');
+        setVisiting(doctor.visiting || false);
+        setRegistrationBody(doctor.registration_body || '');
+        setRegistrationNumber(doctor.registration_number || '');
+        setRegistrationYear(doctor.registration_year || '');
+        setRoles(doctor.roles ? doctor.roles.join('\n') : '');
+        setMemberships(doctor.memberships ? doctor.memberships.join('\n') : '');
+        setEducation(doctor.education ? JSON.stringify(doctor.education, null, 2) : '');
+        setProfessionalExperience(doctor.professional_experience ? doctor.professional_experience.join('\n') : '');
+        setTraining(doctor.training ? doctor.training.join('\n') : '');
+        setAreasOfExpertise(doctor.areas_of_expertise ? doctor.areas_of_expertise.join('\n') : '');
+        setSeoTitle(doctor.seo_title || '');
+        setSeoDescription(doctor.seo_description || '');
+        setPublished(doctor.published || false);
       }
     } catch (err) {
       console.error('Error fetching doctor:', err);
@@ -105,7 +107,8 @@ export default function EditDoctorPage() {
         }
       }
 
-      const { error: updateError } = await supabase
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: updateError } = await (supabase as any)
         .from('doctors')
         .update({
           name,

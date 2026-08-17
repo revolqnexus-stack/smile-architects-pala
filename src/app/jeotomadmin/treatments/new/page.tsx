@@ -32,7 +32,8 @@ export default function NewTreatmentPage() {
       const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
       const benefitsArray = benefits.split('\n').filter(b => b.trim());
 
-      const { error: insertError } = await supabase.from('treatments').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: insertError } = await (supabase as any).from('treatments').insert({
         slug,
         title,
         short_description: shortDescription || null,

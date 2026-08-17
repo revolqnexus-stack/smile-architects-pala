@@ -25,7 +25,8 @@ export default function NewPatientStoryPage() {
     setLoading(true);
 
     try {
-      const { error: insertError } = await supabase.from('patient_stories').insert({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error: insertError } = await (supabase as any).from('patient_stories').insert({
         title,
         story,
         testimonial: testimonial || null,
