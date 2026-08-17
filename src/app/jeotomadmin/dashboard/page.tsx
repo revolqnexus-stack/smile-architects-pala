@@ -1,6 +1,39 @@
 import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/supabase/auth';
+import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
+
+async function getCounts() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const key = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  if (!url || !key) return { doctors: 0, treatments: 0, guides: 0, stories: 0, faqs: 0, media: 0 };
+
+  const supabase = createClient(url, key, { auth: { persistSession: false } });
+
+  const [doctors, treatments, guides, stories, faqs, media] = await Promise.all([
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('doctors').select('id', { count: 'exact', head: true }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('treatments').select('id', { count: 'exact', head: true }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('dental_guides').select('id', { count: 'exact', head: true }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('patient_stories').select('id', { count: 'exact', head: true }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('faqs').select('id', { count: 'exact', head: true }),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (supabase as any).from('media').select('id', { count: 'exact', head: true }),
+  ]);
+
+  return {
+    doctors: doctors.count ?? 0,
+    treatments: treatments.count ?? 0,
+    guides: guides.count ?? 0,
+    stories: stories.count ?? 0,
+    faqs: faqs.count ?? 0,
+    media: media.count ?? 0,
+  };
+}
 
 export default async function AdminDashboard() {
   const session = await getSession();
@@ -9,15 +42,17 @@ export default async function AdminDashboard() {
     redirect('/jeotomadmin/login');
   }
 
+  const counts = await getCounts();
+
   const sections = [
-    { title: 'Homepage', href: '/jeotomadmin/homepage', icon: '🏠', description: 'Edit hero, stats, and homepage content' },
-    { title: 'Doctors', href: '/jeotomadmin/doctors', icon: '👨‍⚕️', description: 'Manage doctor profiles and information' },
-    { title: 'Treatments', href: '/jeotomadmin/treatments', icon: '🦷', description: 'Add and edit treatment pages' },
-    { title: 'Dental Guides', href: '/jeotomadmin/guides', icon: '📚', description: 'Create and publish dental guides' },
-    { title: 'Patient Stories', href: '/jeotomadmin/patient-stories', icon: '⭐', description: 'Manage patient testimonials and stories' },
-    { title: 'FAQs', href: '/jeotomadmin/faqs', icon: '❓', description: 'Add and organize FAQs' },
-    { title: 'Media Library', href: '/jeotomadmin/media', icon: '🖼️', description: 'Upload and manage images' },
-    { title: 'Settings', href: '/jeotomadmin/settings', icon: '⚙️', description: 'Clinic info, hours, contact details' },
+    { title: 'Homepage', href: '/jeotomadmin/homepage', icon: '🏠', description: 'Edit hero, stats, and homepage content', count: null },
+    { title: 'Doctors', href: '/jeotomadmin/doctors', icon: '👨‍⚕️', description: 'Manage doctor profiles and information', count: counts.doctors },
+    { title: 'Treatments', href: '/jeotomadmin/treatments', icon: '🦷', description: 'Add and edit treatment pages', count: counts.treatments },
+    { title: 'Dental Guides', href: '/jeotomadmin/guides', icon: '📚', description: 'Create and publish dental guides', count: counts.guides },
+    { title: 'Patient Stories', href: '/jeotomadmin/patient-stories', icon: '⭐', description: 'Manage patient testimonials and stories', count: counts.stories },
+    { title: 'FAQs', href: '/jeotomadmin/faqs', icon: '❓', description: 'Add and organize FAQs', count: counts.faqs },
+    { title: 'Media Library', href: '/jeotomadmin/media', icon: '🖼️', description: 'Upload and manage images', count: counts.media },
+    { title: 'Settings', href: '/jeotomadmin/settings', icon: '⚙️', description: 'Clinic info, hours, contact details', count: null },
   ];
 
   return (
@@ -113,12 +148,25 @@ export default async function AdminDashboard() {
                 padding: '1.5rem',
                 transition: 'all 0.2s',
                 cursor: 'pointer',
+                position: 'relative',
               }}
             >
-              <div style={{
-                fontSize: '2rem',
-                marginBottom: '1rem',
-              }}>
+              {section.count !== null && (
+                <div style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  right: '1rem',
+                  backgroundColor: '#2563eb',
+                  color: 'white',
+                  borderRadius: '12px',
+                  padding: '0.125rem 0.625rem',
+                  fontSize: '0.75rem',
+                  fontWeight: 600,
+                }}>
+                  {section.count}
+                </div>
+              )}
+              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>
                 {section.icon}
               </div>
               <h3 style={{
