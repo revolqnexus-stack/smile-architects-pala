@@ -1,3 +1,4 @@
+import { createClient } from '@supabase/supabase-js';
 import { supabase } from './client';
 import type { Database } from './database.types';
 
@@ -12,6 +13,16 @@ export type Media = Tables['media']['Row'];
 export type HomepageContent = Tables['homepage_content']['Row'];
 export type SiteSetting = Tables['site_settings']['Row'];
 
+// Use service role key server-side (bypasses RLS), fall back to anon client
+function getClient() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (url && serviceKey) {
+    return createClient(url, serviceKey, { auth: { persistSession: false } });
+  }
+  return supabase;
+}
+
 // Helper to cast Supabase query results
 function castResult<T>(data: unknown): T[] {
   return (data || []) as T[];
@@ -23,7 +34,8 @@ function castSingleResult<T>(data: unknown): T | null {
 
 // Doctors
 export async function getDoctors() {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('doctors')
     .select('*')
     .order('display_order', { ascending: true });
@@ -31,7 +43,8 @@ export async function getDoctors() {
 }
 
 export async function getDoctor(id: string) {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('doctors')
     .select('*')
     .eq('id', id)
@@ -41,7 +54,8 @@ export async function getDoctor(id: string) {
 
 // Treatments
 export async function getTreatments() {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('treatments')
     .select('*')
     .order('display_order', { ascending: true });
@@ -50,7 +64,8 @@ export async function getTreatments() {
 
 // Guides
 export async function getGuides() {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('dental_guides')
     .select('*')
     .order('created_at', { ascending: false });
@@ -59,7 +74,8 @@ export async function getGuides() {
 
 // FAQs
 export async function getFAQs() {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('faqs')
     .select('*')
     .order('display_order', { ascending: true });
@@ -68,7 +84,8 @@ export async function getFAQs() {
 
 // Patient Stories
 export async function getPatientStories() {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('patient_stories')
     .select('*')
     .order('display_order', { ascending: true });
@@ -77,7 +94,8 @@ export async function getPatientStories() {
 
 // Media
 export async function getMedia() {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('media')
     .select('*')
     .order('created_at', { ascending: false });
@@ -86,7 +104,8 @@ export async function getMedia() {
 
 // Homepage Content
 export async function getHomepageSection(section: string) {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('homepage_content')
     .select('*')
     .eq('section', section)
@@ -96,7 +115,8 @@ export async function getHomepageSection(section: string) {
 
 // Settings
 export async function getSetting(key: string) {
-  const { data } = await supabase
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { data } = await (getClient() as any)
     .from('site_settings')
     .select('*')
     .eq('key', key)

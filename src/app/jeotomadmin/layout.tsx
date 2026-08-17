@@ -1,19 +1,26 @@
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/supabase/auth';
+import type { Metadata } from 'next';
 
-export default async function AdminLayout({
+export const metadata: Metadata = {
+  title: 'Smile Architects CMS',
+  robots: 'noindex, nofollow',
+};
+
+export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getSession();
-  
-  // If not authenticated and not on login page, redirect to login
-  // Note: This check will be done on individual pages for better control
-  
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <head />
+      <body style={{
+        margin: 0,
+        padding: 0,
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", sans-serif',
+        backgroundColor: '#0f1117',
+        color: '#e2e8f0',
+        WebkitFontSmoothing: 'antialiased',
+      }}>
         {children}
       </body>
     </html>

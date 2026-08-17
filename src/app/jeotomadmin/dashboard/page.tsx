@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { getSession } from '@/lib/supabase/auth';
 import { createClient } from '@supabase/supabase-js';
 import Link from 'next/link';
+import AdminShell from '@/components/admin/AdminShell';
 
 async function getCounts() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -35,159 +36,131 @@ async function getCounts() {
   };
 }
 
+const CARD_ACCENT = [
+  '#6366f1', '#0ea5e9', '#10b981', '#f59e0b',
+  '#ec4899', '#8b5cf6', '#14b8a6', '#f97316',
+];
+
 export default async function AdminDashboard() {
   const session = await getSession();
-  
-  if (!session) {
-    redirect('/jeotomadmin/login');
-  }
+  if (!session) redirect('/jeotomadmin/login');
 
   const counts = await getCounts();
 
   const sections = [
-    { title: 'Homepage', href: '/jeotomadmin/homepage', icon: '🏠', description: 'Edit hero, stats, and homepage content', count: null },
-    { title: 'Doctors', href: '/jeotomadmin/doctors', icon: '👨‍⚕️', description: 'Manage doctor profiles and information', count: counts.doctors },
-    { title: 'Treatments', href: '/jeotomadmin/treatments', icon: '🦷', description: 'Add and edit treatment pages', count: counts.treatments },
-    { title: 'Dental Guides', href: '/jeotomadmin/guides', icon: '📚', description: 'Create and publish dental guides', count: counts.guides },
-    { title: 'Patient Stories', href: '/jeotomadmin/patient-stories', icon: '⭐', description: 'Manage patient testimonials and stories', count: counts.stories },
-    { title: 'FAQs', href: '/jeotomadmin/faqs', icon: '❓', description: 'Add and organize FAQs', count: counts.faqs },
-    { title: 'Media Library', href: '/jeotomadmin/media', icon: '🖼️', description: 'Upload and manage images', count: counts.media },
-    { title: 'Settings', href: '/jeotomadmin/settings', icon: '⚙️', description: 'Clinic info, hours, contact details', count: null },
+    { title: 'Homepage', href: '/jeotomadmin/homepage', description: 'Hero text, clinic hours, CTAs', count: null },
+    { title: 'Doctors', href: '/jeotomadmin/doctors', description: 'Doctor profiles & credentials', count: counts.doctors },
+    { title: 'Treatments', href: '/jeotomadmin/treatments', description: 'Service pages & content', count: counts.treatments },
+    { title: 'Dental Guides', href: '/jeotomadmin/guides', description: 'Patient education articles', count: counts.guides },
+    { title: 'Patient Stories', href: '/jeotomadmin/patient-stories', description: 'Testimonials & reviews', count: counts.stories },
+    { title: 'FAQs', href: '/jeotomadmin/faqs', description: 'Frequently asked questions', count: counts.faqs },
+    { title: 'Media Library', href: '/jeotomadmin/media', description: 'Uploaded images & files', count: counts.media },
+    { title: 'Settings', href: '/jeotomadmin/settings', description: 'Clinic info & contact details', count: null },
   ];
 
+  const totalContent = counts.doctors + counts.treatments + counts.guides + counts.stories + counts.faqs;
+
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f9fafb' }}>
-      {/* Header */}
-      <header style={{
-        backgroundColor: 'white',
-        borderBottom: '1px solid #e5e7eb',
-        padding: '1rem 2rem',
+    <AdminShell>
+      {/* Page header */}
+      <div style={{ marginBottom: '2rem' }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 600, color: '#f1f5f9', marginBottom: '0.25rem' }}>
+          Dashboard
+        </h1>
+        <p style={{ fontSize: '0.875rem', color: '#64748b' }}>
+          Welcome back — your website is live and running.
+        </p>
+      </div>
+
+      {/* Stats row */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(4, 1fr)',
+        gap: '1rem',
+        marginBottom: '2rem',
       }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}>
-          <h1 style={{
-            fontSize: '1.25rem',
-            fontWeight: 600,
-            color: '#1a1a1a',
+        {[
+          { label: 'Doctors', value: counts.doctors, color: '#6366f1' },
+          { label: 'Treatments', value: counts.treatments, color: '#0ea5e9' },
+          { label: 'Guides', value: counts.guides, color: '#10b981' },
+          { label: 'Total Content', value: totalContent, color: '#f59e0b' },
+        ].map((stat) => (
+          <div key={stat.label} style={{
+            backgroundColor: '#161b27',
+            border: '1px solid rgba(255,255,255,0.06)',
+            borderRadius: '10px',
+            padding: '1.25rem 1.5rem',
           }}>
-            Smile Architects CMS
-          </h1>
-          <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <Link
-              href="/"
-              target="_blank"
-              style={{
-                fontSize: '0.875rem',
-                color: '#666',
-                textDecoration: 'none',
-              }}
-            >
-              View Website →
-            </Link>
-            <form action="/api/auth/signout" method="POST">
-              <button
-                type="submit"
-                style={{
-                  padding: '0.5rem 1rem',
-                  backgroundColor: '#f3f4f6',
-                  border: '1px solid #d1d5db',
-                  borderRadius: '4px',
-                  fontSize: '0.875rem',
-                  cursor: 'pointer',
-                }}
-              >
-                Sign Out
-              </button>
-            </form>
+            <div style={{ fontSize: '1.875rem', fontWeight: 700, color: stat.color, lineHeight: 1 }}>
+              {stat.value}
+            </div>
+            <div style={{ fontSize: '0.75rem', color: '#64748b', marginTop: '0.375rem', fontWeight: 500 }}>
+              {stat.label}
+            </div>
           </div>
-        </div>
-      </header>
+        ))}
+      </div>
 
-      {/* Main Content */}
-      <main style={{
-        maxWidth: '1400px',
-        margin: '0 auto',
-        padding: '2rem',
+      {/* Content cards */}
+      <div style={{ marginBottom: '1rem' }}>
+        <h2 style={{ fontSize: '0.75rem', fontWeight: 600, color: '#475569', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+          Content Sections
+        </h2>
+      </div>
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
+        gap: '1rem',
       }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <h2 style={{
-            fontSize: '1.875rem',
-            fontWeight: 600,
-            color: '#1a1a1a',
-            marginBottom: '0.5rem',
-          }}>
-            Dashboard
-          </h2>
-          <p style={{
-            color: '#666',
-            fontSize: '1rem',
-          }}>
-            Manage your website content
-          </p>
-        </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: '1.5rem',
-        }}>
-          {sections.map((section) => (
-            <Link
-              key={section.href}
-              href={section.href}
-              style={{
-                textDecoration: 'none',
-                backgroundColor: 'white',
-                border: '1px solid #e5e7eb',
-                borderRadius: '8px',
-                padding: '1.5rem',
-                transition: 'all 0.2s',
-                cursor: 'pointer',
-                position: 'relative',
-              }}
+        {sections.map((section, i) => (
+          <Link
+            key={section.href}
+            href={section.href}
+            style={{ textDecoration: 'none' }}
+          >
+            <div style={{
+              backgroundColor: '#161b27',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: '10px',
+              padding: '1.25rem 1.5rem',
+              cursor: 'pointer',
+              transition: 'border-color 0.15s',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '1rem',
+            }}
+              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = CARD_ACCENT[i % CARD_ACCENT.length] + '66'; }}
+              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.06)'; }}
             >
-              {section.count !== null && (
-                <div style={{
-                  position: 'absolute',
-                  top: '1rem',
-                  right: '1rem',
-                  backgroundColor: '#2563eb',
-                  color: 'white',
-                  borderRadius: '12px',
-                  padding: '0.125rem 0.625rem',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                }}>
-                  {section.count}
+              <div>
+                <div style={{ fontSize: '0.9375rem', fontWeight: 500, color: '#e2e8f0', marginBottom: '0.25rem' }}>
+                  {section.title}
                 </div>
-              )}
-              <div style={{ fontSize: '2rem', marginBottom: '1rem' }}>
-                {section.icon}
+                <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                  {section.description}
+                </div>
               </div>
-              <h3 style={{
-                fontSize: '1.125rem',
-                fontWeight: 600,
-                color: '#1a1a1a',
-                marginBottom: '0.5rem',
-              }}>
-                {section.title}
-              </h3>
-              <p style={{
-                fontSize: '0.875rem',
-                color: '#666',
-                lineHeight: 1.5,
-              }}>
-                {section.description}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </main>
-    </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
+                {section.count !== null && (
+                  <div style={{
+                    fontSize: '1.25rem',
+                    fontWeight: 700,
+                    color: CARD_ACCENT[i % CARD_ACCENT.length],
+                    minWidth: '2rem',
+                    textAlign: 'right',
+                  }}>
+                    {section.count}
+                  </div>
+                )}
+                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#475569" strokeWidth={2}>
+                  <path d="M9 5l7 7-7 7" />
+                </svg>
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </AdminShell>
   );
 }
