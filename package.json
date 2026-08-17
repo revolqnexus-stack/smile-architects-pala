@@ -6,15 +6,20 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "migrate:cms": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/migrate-to-cms.ts"
   },
   "dependencies": {
+    "@supabase/ssr": "^0.12.4",
+    "@supabase/supabase-js": "^2.109.0",
     "@tabler/icons-react": "^3.46.0",
+    "bcryptjs": "^3.0.3",
     "dialkit": "^1.4.3",
     "framer-motion": "^13.1.0",
     "lenis": "^1.3.26",
     "motion": "^13.1.0",
     "next": "16.3.0",
+    "next-auth": "^4.24.15",
     "ogl": "^1.0.11",
     "react": "19.2.8",
     "react-dom": "19.2.8"

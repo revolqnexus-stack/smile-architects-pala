@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Geographic / regional service
     { url: `${base}/areas-served`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${base}/areas-served/kottayam`, lastModified: now, changeFrequency: "monthly", priority: 0.8 },
+    { url: `${base}/areas-served/thrissur`, lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     // Content
     { url: `${base}/dental-guides`, lastModified: now, changeFrequency: "weekly", priority: 0.7 },
     { url: `${base}/patient-stories`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },

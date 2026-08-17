@@ -14,9 +14,9 @@ import {
 } from "@/components/motion/REVOLQComponents";
 
 export const metadata: Metadata = buildMetadata({
-  title: "Lingual Braces in Pala for Kottayam Patients | Smile Architects",
+  title: "Lingual Braces in Pala for Kottayam & Thrissur Patients | Smile Architects",
   description:
-    "Lingual braces (hidden braces) at Smile Architects, Pala — fitted to the inner surface of teeth for complete invisibility. Dr. Jeo Tom Charls has dedicated lingual orthodontics and CAD/CAM training. Serving Kottayam District.",
+    "Lingual braces (hidden braces) at Smile Architects, Pala — fitted to the inner surface of teeth for complete invisibility. Dr. Jeo Tom Charls has dedicated lingual orthodontics and CAD/CAM training. Serving Kottayam District and Thrissur.",
   canonical: "/orthodontics/lingual-braces",
 });
 

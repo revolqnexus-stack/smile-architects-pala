@@ -383,6 +383,68 @@ small, .text-small {
   background-color: var(--color-white);
 }
 
+/* ── Section separators — subtle bottom shadow on every section ── */
+/* Gives each section a soft depth edge without a hard border.      */
+.section-light,
+.section-warm,
+.section-white {
+  box-shadow: 0 6px 24px -4px rgba(37, 78, 6, 0.07);
+  position: relative;
+  z-index: 0;
+}
+
+/* Slightly stronger edge on white sections so they read against adjacent greens */
+.section-white {
+  box-shadow: 0 8px 28px -4px rgba(37, 78, 6, 0.09);
+}
+
+/* Dark section gets a top highlight instead */
+.section-dark {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ── Between-section gradient fades ──────────────────────────────
+ * White/cream sections that follow a green section get a radial
+ * top-glow that whispers of the section above without being obvious.
+ */
+.section-white::before,
+.section-warm::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 220px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(215, 231, 190, 0.22),
+    transparent 55%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Green sections that precede a white section bleed a gentle bottom gradient */
+.section-light::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 180px;
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    rgba(255, 255, 255, 0.18)
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Ensure content inside sections sits above pseudo-element gradients */
+.section-light > *,
+.section-warm > *,
+.section-white > * {
+  position: relative;
+  z-index: 1;
+}
+
 /* Section vertical rhythm - generous spacing */
 .section-padding {
   padding-top: clamp(3rem, 8vw, 7rem);
@@ -871,37 +933,120 @@ small, .text-small {
   animation-play-state: paused;
 }
 
-/* ─── REVOLQ ANIMATION SYSTEM ──────────────────────────────────────────────── */
-
-/**
- * Hero animation — CSS keyframes on page load (REVOLQ system)
- * Much more dramatic than scroll reveals: starts from 105% translateY
+/* ─── GLOBAL MOTION LANGUAGE ──────────────────────────────────────────────── */
+/*
+ * Premium editorial healthcare motion system.
+ * Calm, precise, organic. Supports hierarchy, not spectacle.
+ *
+ * Duration:  400–700ms UI  |  800–1200ms entrance
+ * Ease:      cubic-bezier(0.22, 1, 0.36, 1)
+ * Distance:  12–30px max   |  hover: 2–5px max
+ * Stagger:   80–120ms
  */
-@keyframes revealUp {
-  from {
-    transform: translateY(105%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+:root {
+  --ease-editorial: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast:    400ms;
+  --dur-base:    600ms;
+  --dur-enter:   800ms;
+  --dur-slow:   1100ms;
 }
 
-.animate-reveal {
-  animation: revealUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Accent line — draws left→right on entry */
+@keyframes accentLineDraw {
+  from { width: 0; opacity: 0; }
+  to   { width: 60px; opacity: 1; }
+}
+.accent-line {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-jonquil), var(--color-harvest-gold));
+  border-radius: var(--radius-full);
+  margin-bottom: 1.5rem;
+  animation: accentLineDraw 0.55s var(--ease-editorial) both;
+  animation-play-state: paused; /* REVOLQComponents triggers via inView */
+}
+/* When parent is in view the RevealUp wrapper adds opacity, so we rely on
+   CSS alone here — just let it animate on paint for heading blocks */
+.section-header .accent-line,
+.faq-editorial-left .accent-line,
+.location-editorial-text .accent-line {
+  animation-play-state: running;
 }
 
-/**
- * Reduced motion: disable dramatic hero animations
- */
+/* Treatment card — editorial hover */
+.card-treatment {
+  transition:
+    border-color 0.3s var(--ease-editorial),
+    box-shadow   0.3s var(--ease-editorial),
+    transform    0.35s var(--ease-editorial);
+}
+.treatment-card-link:hover .card-treatment {
+  border-color: var(--color-jonquil);
+  box-shadow: 0 12px 32px -8px rgba(37, 78, 6, 0.13);
+  transform: translateY(-5px);
+}
+/* Icon lifts slightly inside card on hover */
+.treatment-card-link:hover .icon-botanical,
+.treatment-card-link:hover [aria-hidden="true"] svg {
+  transform: translateY(-2px);
+  transition: transform 0.3s var(--ease-editorial);
+}
+/* Arrow slides right */
+.treatment-card-link:hover .card-learn-more {
+  color: var(--color-jonquil);
+}
+.card-learn-more {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.875rem;
+  color: var(--color-olive);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  margin-top: 1.25rem;
+  transition: color 0.25s ease;
+}
+.card-learn-more svg {
+  transition: transform 0.3s var(--ease-editorial);
+}
+.treatment-card-link:hover .card-learn-more svg {
+  transform: translateX(5px);
+}
+
+/* Facility numbered card hover */
+.facility-numbered-card {
+  transition:
+    border-color 0.3s var(--ease-editorial),
+    box-shadow   0.3s var(--ease-editorial),
+    transform    0.35s var(--ease-editorial);
+}
+.facility-numbered-card:hover {
+  border-color: var(--color-olive);
+  box-shadow: 0 8px 28px rgba(37,78,6,0.07);
+  transform: translateY(-3px);
+}
+
+/* Doctor card image — restrained scale */
+.doctor-card img,
+.doctor-card [class*="photo"] {
+  transition: transform 0.6s var(--ease-editorial);
+}
+.doctor-card:hover img,
+.doctor-card:hover [class*="photo"] {
+  transform: scale(1.025);
+}
+
+/* Reduced motion — kill all custom animations */
 @media (prefers-reduced-motion: reduce) {
-  .animate-reveal {
-    animation: none;
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .accent-line { animation: none; width: 60px; opacity: 1; }
+  .card-treatment,
+  .treatment-card-link:hover .card-treatment,
+  .facility-numbered-card,
+  .facility-numbered-card:hover { transform: none !important; }
+  .treatment-card-link:hover .card-learn-more svg,
+  .card-learn-more svg { transform: none !important; }
 }
+
 
 /* ─── Page Transitions ─────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: no-preference) {
@@ -2235,4 +2380,213 @@ body {
 }
 .hover-scale-button:hover {
   transform: scale(1.04);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════════
+   DEDICATED DOCTORS PAGE STYLES
+   Scoped styles for /dentists page only - does not affect home page
+   ══════════════════════════════════════════════════════════════════════════════ */
+
+/* Editorial page intro */
+.doctors-page-intro {
+  margin-top: clamp(2rem, 4vw, 3rem);
+  max-width: 720px;
+}
+
+.doctors-page-intro .eyebrow {
+  margin-bottom: 1rem;
+}
+
+.doctors-page-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 3.5rem);
+  font-weight: 400;
+  color: var(--color-dark-moss);
+  line-height: 1.15;
+  margin: 0 0 1.25rem 0;
+}
+
+.doctors-page-description {
+  font-size: clamp(1rem, 2vw, 1.125rem);
+  color: var(--color-olive);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* Doctor portrait cards grid - 2 column layout */
+.doctors-portrait-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+@media (min-width: 768px) {
+  .doctors-portrait-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.doctor-portrait-card-link {
+  text-decoration: none;
+  display: block;
+  height: 100%;
+}
+
+.doctor-portrait-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(2px);
+  border: 1.5px solid #dce8c5;
+  border-radius: 28px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: 
+    transform 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.doctor-portrait-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-olive);
+  box-shadow: 0 12px 32px rgba(37, 78, 6, 0.12);
+}
+
+/* Large portrait image container */
+.doctor-portrait-image {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f3f8e9 0%, #e8f2d5 100%);
+}
+
+.doctor-portrait-img {
+  transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.doctor-portrait-card:hover .doctor-portrait-img {
+  transform: scale(1.025);
+}
+
+/* Fallback placeholder for missing images */
+.doctor-portrait-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #d7e3a4 0%, #ecf5e2 100%);
+}
+
+.doctor-portrait-initials {
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: 600;
+  color: var(--color-dark-moss);
+  opacity: 0.35;
+  user-select: none;
+}
+
+/* Card content below image */
+.doctor-portrait-content {
+  padding: clamp(1.5rem, 3vw, 2rem);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.doctor-portrait-name {
+  font-family: var(--font-serif);
+  font-size: clamp(1.375rem, 2.5vw, 1.625rem);
+  font-weight: 500;
+  color: var(--color-dark-moss);
+  line-height: 1.2;
+  margin: 0 0 0.25rem 0;
+}
+
+.doctor-portrait-credentials {
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+  color: var(--color-olive);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.doctor-portrait-role {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  color: var(--color-cafe-noir);
+  line-height: 1.5;
+  margin: 0 0 0.5rem 0;
+}
+
+.doctor-visiting-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-olive);
+  background: rgba(126, 132, 7, 0.1);
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.5rem;
+}
+
+.doctor-portrait-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-utility);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-olive);
+  margin-top: auto;
+  padding-top: 0.75rem;
+  transition: gap 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.doctor-portrait-card:hover .doctor-portrait-cta {
+  gap: 0.75rem;
+  color: var(--color-dark-moss);
+}
+
+.doctor-portrait-cta svg {
+  color: var(--color-jonquil);
+  transition: transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.doctor-portrait-card:hover .doctor-portrait-cta svg {
+  transform: translateX(4px);
+}
+
+/* Respect reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .doctor-portrait-card {
+    transition: none;
+  }
+  
+  .doctor-portrait-card:hover {
+    transform: none;
+  }
+  
+  .doctor-portrait-img,
+  .doctor-portrait-cta,
+  .doctor-portrait-cta svg {
+    transition: none;
+  }
+  
+  .doctor-portrait-card:hover .doctor-portrait-img {
+    transform: none;
+  }
+  
+  .doctor-portrait-card:hover .doctor-portrait-cta svg {
+    transform: none;
+  }
 }

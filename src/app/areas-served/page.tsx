@@ -163,6 +163,70 @@ export default function AreasServedPage() {
                 </div>
               </div>
 
+              {/* Regional service pages */}
+              <div>
+                <h2 style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "1.75rem",
+                  color: "var(--color-dark-moss)",
+                  fontWeight: 400,
+                  marginBottom: "1rem",
+                }}>
+                  Regional Service Information
+                </h2>
+                <p style={{ color: "var(--color-cafe-noir)", lineHeight: 1.75, fontSize: "1rem", marginBottom: "1.5rem" }}>
+                  Detailed information for patients from different regions:
+                </p>
+                
+                <div style={{ display: "grid", gap: "1rem", marginBottom: "2.5rem" }}>
+                  <Link href="/areas-served/kottayam" style={{ textDecoration: "none" }}>
+                    <div className="card-tea" style={{ 
+                      padding: "1.5rem",
+                      transition: "all 0.2s ease",
+                      cursor: "pointer"
+                    }}>
+                      <h3 style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--color-dark-moss)", marginBottom: "0.5rem" }}>
+                        Kottayam District
+                      </h3>
+                      <p style={{ color: "var(--color-olive)", fontSize: "0.9375rem", lineHeight: 1.6, marginBottom: "0.75rem" }}>
+                        Comprehensive information for patients from Kottayam town and across the district — 
+                        including nearby areas, travel information, and service details.
+                      </p>
+                      <span style={{ 
+                        color: "var(--color-jonquil)", 
+                        fontSize: "0.875rem",
+                        fontWeight: 600
+                      }}>
+                        View details →
+                      </span>
+                    </div>
+                  </Link>
+
+                  <Link href="/areas-served/thrissur" style={{ textDecoration: "none" }}>
+                    <div className="card-tea" style={{ 
+                      padding: "1.5rem",
+                      transition: "all 0.2s ease",
+                      cursor: "pointer"
+                    }}>
+                      <h3 style={{ fontSize: "1.25rem", fontWeight: 600, color: "var(--color-dark-moss)", marginBottom: "0.5rem" }}>
+                        Thrissur
+                      </h3>
+                      <p style={{ color: "var(--color-olive)", fontSize: "0.9375rem", lineHeight: 1.6, marginBottom: "0.75rem" }}>
+                        Information for patients from Thrissur considering specialist orthodontic treatment — 
+                        including treatment planning, travel guidance, and appointment scheduling.
+                      </p>
+                      <span style={{ 
+                        color: "var(--color-jonquil)", 
+                        fontSize: "0.875rem",
+                        fontWeight: 600
+                      }}>
+                        View details →
+                      </span>
+                    </div>
+                  </Link>
+                </div>
+              </div>
+
               {/* Nearby areas */}
               <div>
                 <h2 style={{

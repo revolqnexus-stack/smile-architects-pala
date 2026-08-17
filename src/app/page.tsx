@@ -80,6 +80,12 @@ export default function HomePage() {
           position: "absolute", bottom: 0, left: 0, right: 0, height: "220px", zIndex: 1,
           background: "linear-gradient(to top, rgba(0,0,0,0.55) 0%, transparent 100%)",
         }} />
+        {/* ── Video-to-page melt — hero bleeds into Services section ── */}
+        <div aria-hidden="true" style={{
+          position: "absolute", bottom: 0, left: 0, right: 0, height: "160px", zIndex: 2,
+          background: "linear-gradient(to bottom, transparent 0%, #F3F8E9 100%)",
+          pointerEvents: "none",
+        }} />
 
         {/* ── Content layer ── */}
         <div className="container-xl hero-container" style={{ position: "relative", zIndex: 2, width: "100%", paddingTop: "120px", paddingBottom: "80px" }}>
@@ -459,9 +465,20 @@ export default function HomePage() {
       />
 
       {/* ── TREATMENTS ─────────────────────────────────────────── */}
-      <section aria-labelledby="treatments-heading" className="section-padding section-light">
-        <div className="container-xl">
+      <section aria-labelledby="treatments-heading" className="section-padding treatments-section">
+        {/* Organic background decorations */}
+        <div aria-hidden="true" className="treatments-bg-decor">
+          <div className="treatments-blob treatments-blob-1" />
+          <div className="treatments-blob treatments-blob-2" />
+          <svg className="treatments-tooth-bg" viewBox="0 0 200 220" fill="none" aria-hidden="true">
+            <path d="M100 10 C60 10 30 35 25 70 C20 100 30 130 35 150 C40 170 45 200 60 200 C70 200 75 185 80 175 C85 165 90 158 100 158 C110 158 115 165 120 175 C125 185 130 200 140 200 C155 200 160 170 165 150 C170 130 180 100 175 70 C170 35 140 10 100 10 Z" stroke="currentColor" strokeWidth="3" fill="none"/>
+          </svg>
+          <svg className="treatments-yellow-arc" viewBox="0 0 120 40" fill="none" aria-hidden="true">
+            <path d="M10 30 Q60 5 110 30" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none"/>
+          </svg>
+        </div>
 
+        <div className="container-xl" style={{ position: "relative", zIndex: 1 }}>
           <div className="section-header">
             <div className="accent-line" />
             <StaggerReveal type="eyebrow">
@@ -492,7 +509,6 @@ export default function HomePage() {
                   aria-label={`Learn about ${t.title}`}
                 >
                   <div className="card-treatment">
-                    {/* Icon — only shown if there's a semantic match for the slug */}
                     <div style={{ marginBottom: "1.125rem", color: "var(--color-dark-moss)" }}>
                       <TreatmentIconFor slug={t.slug} size="lg" />
                     </div>
@@ -515,10 +531,67 @@ export default function HomePage() {
             </div>
           </StaggerReveal>
         </div>
+
+        {/* ── Treatments → Orthodontics soft wave ── */}
+        <div aria-hidden="true" style={{
+          position: "absolute", bottom: -2, left: 0, right: 0,
+          width: "100%", lineHeight: 0, pointerEvents: "none", zIndex: 2,
+        }}>
+          <svg viewBox="0 0 1440 80" preserveAspectRatio="none"
+            style={{ display: "block", width: "100%", height: "clamp(36px, 5vw, 80px)" }}
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,40 C360,72 720,10 1080,46 C1260,62 1380,32 1440,40 L1440,82 L0,82 Z" fill="#ffffff"/>
+            <path d="M0,40 C360,72 720,10 1080,46 C1260,62 1380,32 1440,40"
+              fill="none" stroke="rgba(126,132,7,0.12)" strokeWidth="1.2"/>
+          </svg>
+        </div>
+
+        <style>{`
+          /* treatments section needs overflow:hidden for wave */
+          .treatments-section {
+            position: relative;
+            overflow: hidden;
+            background:
+              radial-gradient(circle at 88% 15%, rgba(255,255,255,0.75), transparent 28%),
+              radial-gradient(circle at 8%  92%, rgba(210,230,185,0.4),  transparent 32%),
+              #F3F8E9;
+          }
+          .treatments-bg-decor {
+            position: absolute; inset: 0;
+            pointer-events: none; overflow: hidden; z-index: 0;
+          }
+          .treatments-blob {
+            position: absolute; border-radius: 50%; filter: blur(72px);
+          }
+          .treatments-blob-1 {
+            width: 520px; height: 520px; top: -140px; right: -100px;
+            background: rgba(215,235,175,0.32);
+          }
+          .treatments-blob-2 {
+            width: 400px; height: 400px; bottom: -100px; left: -80px;
+            background: rgba(215,227,164,0.28);
+          }
+          .treatments-tooth-bg {
+            position: absolute; right: 3%; top: 50%; transform: translateY(-50%);
+            width: clamp(180px, 22vw, 320px); height: auto;
+            color: rgba(37,78,6,0.028); pointer-events: none;
+          }
+          .treatments-yellow-arc {
+            position: absolute;
+            left: clamp(1rem, 6vw, 8rem); top: clamp(2rem, 7vw, 5rem);
+            width: clamp(60px, 8vw, 110px); height: auto;
+            color: rgba(234,200,0,0.45); pointer-events: none;
+            transform: rotate(-8deg);
+          }
+          @media (max-width: 768px) {
+            .treatments-blob-1 { width: 280px; height: 280px; }
+            .treatments-blob-2 { width: 220px; height: 220px; }
+          }
+        `}</style>
       </section>
 
       {/* ── ORTHODONTICS FEATURE ───────────────────────────────── */}
-      <section aria-labelledby="orthodontics-heading" className="section-padding section-warm">
+      <section aria-labelledby="orthodontics-heading" className="section-padding section-white" style={{ position: "relative" }}>
         <div className="container-xl">
           <div className="feature-split">
 
@@ -595,7 +668,7 @@ export default function HomePage() {
       </section>
 
       {/* ── DOCTORS ────────────────────────────────────────────── */}
-      <section aria-labelledby="doctors-heading" className="section-padding section-white">
+      <section aria-labelledby="doctors-heading" className="section-padding section-light">
         <div className="container-xl">
           <div style={{ textAlign: "center", marginBottom: "3rem" }}>
             <div className="accent-line" style={{ margin: "0 auto 1.5rem" }} />
@@ -632,8 +705,9 @@ export default function HomePage() {
       </section>
 
       {/* ── FACILITIES ─────────────────────────────────────────── */}
-      <section aria-labelledby="facilities-heading" className="section-padding section-light">
+      <section aria-labelledby="facilities-heading" className="section-padding section-white">
         <div className="container-xl">
+          {/* Header */}
           <div className="section-header">
             <div className="accent-line" />
             <StaggerReveal type="eyebrow">
@@ -644,26 +718,97 @@ export default function HomePage() {
                 What to expect at Smile Architects
               </h2>
             </StaggerReveal>
+            <StaggerReveal type="body">
+              <p className="section-body">
+                A comfortable, modern environment designed around your care and experience.
+              </p>
+            </StaggerReveal>
           </div>
 
-          <StaggerContainer stagger={0.07} className="facilities-grid">
-            {FACILITIES.map((f) => (
+          {/* 2×2 numbered cards */}
+          <StaggerContainer stagger={0.08} className="facilities-numbered-grid">
+            {FACILITIES.map((f, i) => (
               <StaggerItem key={f.name}>
-                <div className="card-tea facility-card">
-                  <div className="facility-check">
-                    <CheckIcon size="sm" color="var(--color-dark-moss)" stroke={2.2} />
+                <div className="facility-numbered-card">
+                  {/* Number + yellow accent line */}
+                  <div className="facility-numbered-header">
+                    <span className="facility-number">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="facility-number-line" aria-hidden="true" />
                   </div>
-                  <h3 className="facility-name">{f.name}</h3>
-                  <p className="facility-desc">{f.description}</p>
+                  <h3 className="facility-numbered-title">{f.name}</h3>
+                  <p className="facility-numbered-desc">{f.description}</p>
                 </div>
               </StaggerItem>
             ))}
           </StaggerContainer>
         </div>
+
+        <style>{`
+          .facilities-numbered-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+          }
+          .facility-numbered-card {
+            background: #ffffff;
+            border: 1.5px solid #dce8c5;
+            border-radius: 20px;
+            padding: 2rem 2rem 1.75rem;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+          }
+          .facility-numbered-card:hover {
+            border-color: var(--color-olive);
+            box-shadow: 0 8px 28px rgba(37,78,6,0.07);
+            transform: translateY(-3px);
+          }
+          .facility-numbered-header {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            margin-bottom: 1rem;
+          }
+          .facility-number {
+            font-size: 0.8125rem;
+            font-weight: 700;
+            font-family: var(--font-utility);
+            color: var(--color-jonquil);
+            letter-spacing: 0.04em;
+            flex-shrink: 0;
+          }
+          .facility-number-line {
+            flex: 1;
+            height: 2px;
+            background: linear-gradient(90deg, var(--color-jonquil) 0%, rgba(234,200,0,0.15) 100%);
+            border-radius: 99px;
+            max-width: 56px;
+          }
+          .facility-numbered-title {
+            font-family: var(--font-serif);
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--color-dark-moss);
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+          }
+          .facility-numbered-desc {
+            font-size: 0.9375rem;
+            color: var(--color-olive);
+            line-height: 1.65;
+            margin: 0;
+            font-weight: 400;
+          }
+          @media (max-width: 640px) {
+            .facilities-numbered-grid {
+              grid-template-columns: 1fr;
+            }
+          }
+        `}</style>
       </section>
 
       {/* ── REGIONAL SERVICE AREA ───────────────────────────── */}
-      <section aria-labelledby="service-area-heading" className="section-padding section-white">
+      <section aria-labelledby="service-area-heading" className="section-padding section-warm" style={{ position: "relative", overflow: "hidden", paddingBottom: "clamp(5rem, 10vw, 8rem)" }}>
         <div className="container-xl">
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "3rem", alignItems: "center" }}>
             <RevealUp delay={0.05}>
@@ -679,8 +824,8 @@ export default function HomePage() {
               <StaggerReveal type="body">
                 <p className="section-body">
                   Smile Architects is located in Pala, Kottayam District. Patients regularly travel from
-                  Kottayam town, Changanassery, Ettumanoor and surrounding areas for specialist orthodontic
-                  treatment and comprehensive dental care.
+                  Kottayam town, Changanassery, Ettumanoor and surrounding areas, as well as from Thrissur,
+                  for specialist orthodontic treatment and comprehensive dental care.
                 </p>
               </StaggerReveal>
               <StaggerReveal type="cta">
@@ -688,8 +833,8 @@ export default function HomePage() {
                   <Link href="/areas-served/kottayam" className="btn btn-primary">
                     Patients from Kottayam
                   </Link>
-                  <Link href="/contact" className="btn btn-ghost">
-                    Location &amp; Directions
+                  <Link href="/areas-served/thrissur" className="btn btn-ghost">
+                    Patients from Thrissur
                   </Link>
                 </div>
               </StaggerReveal>
@@ -724,96 +869,243 @@ export default function HomePage() {
             </RevealFade>
           </div>
         </div>
+
+        {/* ── Organic wave divider — transitions into FAQ's off-white ── */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            bottom: -2,
+            left: 0,
+            right: 0,
+            width: "100%",
+            lineHeight: 0,
+            pointerEvents: "none",
+            zIndex: 2,
+          }}
+        >
+          {/* Faint olive outline wave — sits just above the fill wave */}
+          <svg
+            viewBox="0 0 1440 110"
+            preserveAspectRatio="none"
+            style={{ display: "block", width: "100%", height: "clamp(45px, 8vw, 110px)" }}
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0,52 C180,92 360,20 540,58 C720,96 900,18 1080,55 C1260,92 1380,38 1440,52 L1440,112 L0,112 Z"
+              fill="#FAFAF7"
+            />
+            {/* Subtle olive/yellow accent line along the wave edge */}
+            <path
+              d="M0,52 C180,92 360,20 540,58 C720,96 900,18 1080,55 C1260,92 1380,38 1440,52"
+              fill="none"
+              stroke="rgba(126,132,7,0.18)"
+              strokeWidth="1.5"
+            />
+          </svg>
+        </div>
+
+        {/* ── Decorative botanical left ── */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 120 200"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            position: "absolute",
+            bottom: 60,
+            left: -10,
+            width: 120,
+            opacity: 0.09,
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        >
+          <path d="M60 180 Q20 140 30 90 Q40 40 60 20 Q80 40 90 90 Q100 140 60 180Z" stroke="var(--color-dark-moss)" strokeWidth="1.2" fill="none"/>
+          <path d="M60 160 Q15 120 25 70" stroke="var(--color-dark-moss)" strokeWidth="1" fill="none"/>
+          <path d="M60 160 Q105 120 95 70" stroke="var(--color-dark-moss)" strokeWidth="1" fill="none"/>
+          <path d="M60 130 Q30 110 35 80" stroke="var(--color-dark-moss)" strokeWidth="0.8" fill="none"/>
+          <path d="M60 130 Q90 110 85 80" stroke="var(--color-dark-moss)" strokeWidth="0.8" fill="none"/>
+        </svg>
+
+        {/* ── Decorative dot grid right ── */}
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 80 80"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          style={{
+            position: "absolute",
+            bottom: 70,
+            right: 24,
+            width: 80,
+            opacity: 0.1,
+            pointerEvents: "none",
+            zIndex: 1,
+          }}
+        >
+          {[0,1,2,3].map(row =>
+            [0,1,2,3].map(col => (
+              <circle
+                key={`${row}-${col}`}
+                cx={col * 20 + 10}
+                cy={row * 20 + 10}
+                r="2.5"
+                fill="var(--color-olive)"
+              />
+            ))
+          )}
+        </svg>
       </section>
 
       {/* ── PREMIUM FAQs ───────────────────────────────────────── */}
-      <section aria-labelledby="faqs-heading" className="section-padding section-warm">
-        <div className="container-xl" style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <div className="section-header" style={{ textAlign: "center", marginBottom: "3rem" }}>
-            <div className="accent-line" style={{ margin: "0 auto 1.5rem" }} />
-            <StaggerReveal type="eyebrow">
-              <p className="eyebrow">Common Questions</p>
-            </StaggerReveal>
-            <StaggerReveal type="heading">
-              <h2 id="faqs-heading" className="section-title">
-                Frequently asked questions
-              </h2>
-            </StaggerReveal>
-          </div>
+      <section aria-labelledby="faqs-heading" className="section-padding" style={{ backgroundColor: "#FAFAF7", position: "relative", overflow: "hidden", marginTop: "-2px" }}>
+        <div className="container-xl">
+          <div className="faq-editorial-layout">
 
-          <RevealFade delay={0.2}>
-            <PremiumFAQ faqs={FAQS_GENERAL} />
-          </RevealFade>
+            {/* Left: heading */}
+            <RevealUp delay={0.05} className="faq-editorial-left">
+              <div className="accent-line" />
+              <p className="eyebrow">Common Questions</p>
+              <h2 id="faqs-heading" className="faq-editorial-heading">
+                Frequently asked<br />questions
+              </h2>
+              <p className="faq-editorial-sub">
+                Everything you need to know before visiting Smile Architects.
+              </p>
+              {/* Small decorative element */}
+              <div className="faq-deco-line" aria-hidden="true" />
+            </RevealUp>
+
+            {/* Right: accordion */}
+            <RevealFade delay={0.2} className="faq-editorial-right">
+              <PremiumFAQ faqs={FAQS_GENERAL} />
+            </RevealFade>
+
+          </div>
         </div>
+
+        <style>{`
+          .faq-editorial-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 4rem;
+            align-items: start;
+          }
+          .faq-editorial-left {
+            position: sticky;
+            top: 120px;
+          }
+          .faq-editorial-heading {
+            font-family: var(--font-serif);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 400;
+            color: var(--color-dark-moss);
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 1.25rem;
+          }
+          .faq-editorial-sub {
+            font-size: 1rem;
+            color: var(--color-olive);
+            line-height: 1.7;
+            font-family: var(--font-sans);
+            font-weight: 400;
+            margin-bottom: 1.75rem;
+            max-width: 280px;
+          }
+          .faq-deco-line {
+            width: 40px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--color-jonquil), rgba(234,200,0,0.3));
+            border-radius: 99px;
+          }
+          @media (max-width: 900px) {
+            .faq-editorial-layout {
+              grid-template-columns: 1fr;
+              gap: 2.5rem;
+            }
+            .faq-editorial-left {
+              position: static;
+            }
+          }
+        `}</style>
       </section>
 
       {/* ── LOCATION ───────────────────────────────────────────── */}
-      <section aria-labelledby="location-heading" className="section-padding section-white">
+      <section aria-labelledby="location-heading" className="section-padding section-white" style={{ position: "relative" }}>
+        {/* FAQ → Location top gradient whisper */}
+        <div aria-hidden="true" style={{
+          position: "absolute", top: 0, left: 0, right: 0, height: 160,
+          background: "radial-gradient(ellipse at 50% 0%, rgba(215,231,190,0.18), transparent 60%)",
+          pointerEvents: "none", zIndex: 0,
+        }} />
         <div className="container-xl">
-          <div className="location-split">
+          <div className="location-editorial">
 
-            <RevealUp delay={0.05} className="location-text">
+            {/* Left: text */}
+            <RevealUp delay={0.05} className="location-editorial-text">
               <div className="accent-line" />
-              <StaggerReveal type="eyebrow">
-                <p className="eyebrow">Find Us</p>
-              </StaggerReveal>
-              <StaggerReveal type="heading">
-                <h2 id="location-heading" className="section-title">
-                  Dental clinic in Pala, Kottayam
-                </h2>
-              </StaggerReveal>
-              <StaggerReveal type="body">
-                <address style={{ fontStyle: "normal", lineHeight: 1.8, marginBottom: "1.5rem" }}>
-                  <p className="address-primary">
+              <p className="eyebrow">Find Us</p>
+              <h2 id="location-heading" className="location-editorial-heading">
+                Dental clinic in Pala,<br />Kottayam
+              </h2>
+
+              <address className="location-address-block" style={{ fontStyle: "normal" }}>
+                <div className="location-address-item">
+                  <span className="location-address-label">Address</span>
+                  <span className="location-address-value">
                     {CLINIC.address.street}<br />
                     {CLINIC.address.city}, {CLINIC.address.district}<br />
                     {CLINIC.address.state} – {CLINIC.address.pincode}
-                  </p>
-                  <p className="address-landmark">{CLINIC.address.landmark}</p>
-                </address>
-              </StaggerReveal>
-              <StaggerReveal type="content">
-                <div className="hours-card">
-                  <div className="hours-row">
-                    <span className="hours-label">Hours</span>
-                    <span className="hours-value">Mon–Sat: 9:30 AM – 8:00 PM<br />Sunday: Closed</span>
-                  </div>
-                  <div className="divider" />
-                  <div className="hours-row">
-                    <span className="hours-label">Phone</span>
-                    <a href={`tel:${CLINIC.contact.phone}`} className="hours-phone">{CLINIC.contact.phoneDisplay}</a>
-                  </div>
-                  <div className="divider" />
-                  <div className="hours-row">
-                    <span className="hours-label">Parking</span>
-                    <span className="hours-value">Ample car parking available</span>
-                  </div>
+                  </span>
                 </div>
-              </StaggerReveal>
-              <StaggerReveal type="cta">
-                <div className="btn-group" style={{ marginTop: "1.5rem" }}>
-                  <TrackedLink
-                    href={CLINIC.platforms.googleMaps.directionsUrl}
-                    eventName="directions_click"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn btn-primary"
-                  >
-                    Get Directions
-                  </TrackedLink>
-                  <Link href="/contact" className="btn btn-ghost">Contact Details</Link>
+                <div className="location-address-divider" />
+                <div className="location-address-item">
+                  <span className="location-address-label">Landmark</span>
+                  <span className="location-address-value">{CLINIC.address.landmark}</span>
                 </div>
-              </StaggerReveal>
+                <div className="location-address-divider" />
+                <div className="location-address-item">
+                  <span className="location-address-label">Hours</span>
+                  <span className="location-address-value">Mon–Sat: 9:30 AM – 8:00 PM<br />Sunday: Closed</span>
+                </div>
+                <div className="location-address-divider" />
+                <div className="location-address-item">
+                  <span className="location-address-label">Phone</span>
+                  <a href={`tel:${CLINIC.contact.phone}`} className="location-phone-link">
+                    {CLINIC.contact.phoneDisplay}
+                  </a>
+                </div>
+              </address>
+
+              <div className="location-cta-row">
+                <TrackedLink
+                  href={CLINIC.platforms.googleMaps.directionsUrl}
+                  eventName="directions_click"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
+                  Get Directions →
+                </TrackedLink>
+                <a href={`tel:${CLINIC.contact.phone}`} className="btn btn-ghost">
+                  Call Clinic
+                </a>
+              </div>
             </RevealUp>
 
-            <ImageReveal delay={0.2} className="location-map">
-              <div className="map-frame">
+            {/* Right: map */}
+            <ImageReveal delay={0.2} className="location-editorial-map">
+              <div className="location-map-frame">
                 <iframe
                   title="Smile Architects location map — Kattakkayam Road, Pala, Kottayam"
                   src={CLINIC.platforms.googleMaps.embedUrl}
-                  width="100%" height="100%"
-                  style={{ border: 0, display: "block" }}
-                  allowFullScreen loading="lazy"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0, display: "block", borderRadius: "inherit" }}
+                  allowFullScreen
+                  loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
               </div>
@@ -821,10 +1113,124 @@ export default function HomePage() {
 
           </div>
         </div>
+
+        <style>{`
+          /* Editorial location layout */
+          .location-editorial {
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 4rem;
+            align-items: center;
+          }
+          .location-editorial-heading {
+            font-family: var(--font-serif);
+            font-size: clamp(1.875rem, 3vw, 2.75rem);
+            font-weight: 400;
+            color: var(--color-dark-moss);
+            line-height: 1.15;
+            letter-spacing: -0.025em;
+            margin-bottom: 2rem;
+          }
+          /* Address block */
+          .location-address-block {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 2rem;
+          }
+          .location-address-item {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 1rem;
+            padding: 0.875rem 0;
+          }
+          .location-address-label {
+            font-size: 0.6875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-olive);
+            font-family: var(--font-utility);
+            padding-top: 2px;
+          }
+          .location-address-value {
+            font-size: 0.9375rem;
+            color: var(--color-dark-moss);
+            font-family: var(--font-sans);
+            font-weight: 400;
+            line-height: 1.6;
+          }
+          .location-address-divider {
+            height: 1px;
+            background: var(--color-tea-green);
+            margin: 0;
+          }
+          .location-phone-link {
+            font-size: 0.9375rem;
+            color: var(--color-dark-moss);
+            font-family: var(--font-sans);
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-tea-green);
+            padding-bottom: 1px;
+            transition: border-color 0.2s ease, color 0.2s ease;
+          }
+          .location-phone-link:hover {
+            color: var(--color-olive);
+            border-bottom-color: var(--color-olive);
+          }
+          .location-cta-row {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+          }
+          /* Map frame */
+          .location-editorial-map {
+            height: 100%;
+          }
+          .location-map-frame {
+            width: 100%;
+            height: clamp(340px, 50vh, 520px);
+            border-radius: 28px;
+            overflow: hidden;
+            border: 1.5px solid var(--color-tea-green);
+            box-shadow: 0 12px 40px rgba(37,78,6,0.09);
+          }
+          @media (max-width: 900px) {
+            .location-editorial {
+              grid-template-columns: 1fr;
+              gap: 2.5rem;
+            }
+            .location-map-frame {
+              height: 320px;
+              border-radius: 20px;
+            }
+          }
+          @media (max-width: 480px) {
+            .location-address-item {
+              grid-template-columns: 1fr;
+              gap: 0.25rem;
+            }
+            .location-map-frame {
+              height: 260px;
+            }
+          }
+        `}</style>
       </section>
 
       {/* ── BOOK APPOINTMENT ───────────────────────────────────── */}
-      <section aria-labelledby="book-heading" className="section-padding section-dark">
+      <section aria-labelledby="book-heading" className="section-padding section-dark" style={{ position: "relative", overflow: "hidden" }}>
+        {/* Location → Appointment green curve */}
+        <div aria-hidden="true" style={{
+          position: "absolute", top: -2, left: 0, right: 0,
+          width: "100%", lineHeight: 0, pointerEvents: "none", zIndex: 2,
+        }}>
+          <svg viewBox="0 0 1440 70" preserveAspectRatio="none"
+            style={{ display: "block", width: "100%", height: "clamp(32px, 4.5vw, 70px)" }}
+            xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,0 L0,28 C240,58 480,8 720,36 C960,62 1200,16 1440,28 L1440,0 Z"
+              fill="var(--color-dark-moss)"/>
+          </svg>
+        </div>
         <div className="container-xl" style={{ maxWidth: "720px" }}>
           <RevealFade>
             <AppointmentForm heading="Book an appointment at Smile Architects" />

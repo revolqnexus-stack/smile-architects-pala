@@ -25,6 +25,7 @@ const FOOTER_LINKS = [
   { label: "Dental Guides", href: "/dental-guides" },
   { label: "Areas Served", href: "/areas-served" },
   { label: "Kottayam District", href: "/areas-served/kottayam" },
+  { label: "Thrissur", href: "/areas-served/thrissur" },
   { label: "Patient Stories", href: "/patient-stories" },
   { label: "Contact", href: "/contact" },
   { label: "Book Appointment", href: "/book-appointment" },
