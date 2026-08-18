@@ -1,12 +1,11 @@
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/supabase/auth';
 import { getDoctors } from '@/lib/supabase/queries';
 import Link from 'next/link';
 import AdminLayout from '@/components/admin/AdminLayout';
 
+export const dynamic = 'force-dynamic';
+
 export default async function DoctorsListPage() {
-  const session = await getSession();
-  if (!session) redirect('/jeotomadmin/login');
+  // Auth is handled by middleware
 
   const doctors = await getDoctors();
 

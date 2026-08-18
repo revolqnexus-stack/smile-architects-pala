@@ -1,12 +1,11 @@
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/supabase/auth';
 import { getGuides } from '@/lib/supabase/queries';
 import Link from 'next/link';
 import AdminShell from '@/components/admin/AdminShell';
 
+export const dynamic = 'force-dynamic';
+
 export default async function GuidesPage() {
-  const session = await getSession();
-  if (!session) redirect('/jeotomadmin/login');
+  // Auth is handled by middleware
 
   const guides = await getGuides();
 

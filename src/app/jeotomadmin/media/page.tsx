@@ -1,12 +1,11 @@
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/supabase/auth';
 import { getMedia } from '@/lib/supabase/queries';
 import AdminLayout from '@/components/admin/AdminLayout';
 import MediaLibraryClient from '@/components/admin/MediaLibraryClient';
 
+export const dynamic = 'force-dynamic';
+
 export default async function MediaLibraryPage() {
-  const session = await getSession();
-  if (!session) redirect('/jeotomadmin/login');
+  // Auth is handled by middleware
 
   const mediaFiles = await getMedia();
 

@@ -1,8 +1,8 @@
-import { redirect } from 'next/navigation';
-import { getSession } from '@/lib/supabase/auth';
 import { createClient } from '@supabase/supabase-js';
-import Link from 'next/link';
 import AdminShell from '@/components/admin/AdminShell';
+import DashboardCard from '@/components/admin/DashboardCard';
+
+export const dynamic = 'force-dynamic';
 
 async function getCounts() {
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -42,9 +42,7 @@ const CARD_ACCENT = [
 ];
 
 export default async function AdminDashboard() {
-  const session = await getSession();
-  if (!session) redirect('/jeotomadmin/login');
-
+  // Session check is now handled by middleware
   const counts = await getCounts();
 
   const sections = [
@@ -113,52 +111,14 @@ export default async function AdminDashboard() {
         gap: '1rem',
       }}>
         {sections.map((section, i) => (
-          <Link
+          <DashboardCard
             key={section.href}
+            title={section.title}
+            description={section.description}
             href={section.href}
-            style={{ textDecoration: 'none' }}
-          >
-            <div style={{
-              backgroundColor: '#161b27',
-              border: '1px solid rgba(255,255,255,0.06)',
-              borderRadius: '10px',
-              padding: '1.25rem 1.5rem',
-              cursor: 'pointer',
-              transition: 'border-color 0.15s',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '1rem',
-            }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = CARD_ACCENT[i % CARD_ACCENT.length] + '66'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(255,255,255,0.06)'; }}
-            >
-              <div>
-                <div style={{ fontSize: '0.9375rem', fontWeight: 500, color: '#e2e8f0', marginBottom: '0.25rem' }}>
-                  {section.title}
-                </div>
-                <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
-                  {section.description}
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexShrink: 0 }}>
-                {section.count !== null && (
-                  <div style={{
-                    fontSize: '1.25rem',
-                    fontWeight: 700,
-                    color: CARD_ACCENT[i % CARD_ACCENT.length],
-                    minWidth: '2rem',
-                    textAlign: 'right',
-                  }}>
-                    {section.count}
-                  </div>
-                )}
-                <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="#475569" strokeWidth={2}>
-                  <path d="M9 5l7 7-7 7" />
-                </svg>
-              </div>
-            </div>
-          </Link>
+            count={section.count}
+            accentColor={CARD_ACCENT[i % CARD_ACCENT.length]}
+          />
         ))}
       </div>
     </AdminShell>
